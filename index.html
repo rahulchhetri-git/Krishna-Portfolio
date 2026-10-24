@@ -1,0 +1,723 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="Style.css" />
+    <style></style>
+  </head>
+  <body>
+    <title>Krishna Aryal Portfolio</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Arimo:wght@700&family=Manrope:wght@400;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Style.css" />
+    <style></style>
+
+    <!-- Cloudy grayscale backdrop (styled in CSS) -->
+    <div class="sky" aria-hidden="true"></div>
+    <section class="hero" id="home">
+      <div class="hero__frame">
+        <!-- =========================================================
+       HERO
+       ========================================================= -->
+        <!-- Navigation -->
+        <header class="nav">
+          <p class="badge badge--status">
+            <span class="badge__dot" aria-hidden="true"></span>
+             Open for Collabs & Sponsorships 
+          </p>
+
+          <nav class="nav__links" aria-label="Primary">
+            <a href="#highlights">Highlights <sup>[4]</sup></a>
+            <a href="#service">Service <sup>[4]</sup></a>
+            <a href="#milestones">Milestones <sup>[5]</sup></a>
+            <a href="#contact">Contact</a>
+            <a href="https://www.linkedin.com/in/krishna-aryal-a808072a7/?isSelfProfile=false" target="_blank" rel="noopener"
+              >LinkedIn ↗</a
+            >
+          </nav>
+
+          <a href="#contact" class="btn btn--dark btn--sm">
+            Let's Talk
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <use href="#i-arrow-up-right" />
+            </svg>
+          </a>
+        </header>
+
+        <!-- Giant name (outlined + solid) -->
+        <h1 class="hero__title" aria-label="Krishna Aryal">
+          <span class="hero__first">KRISHNA</span>
+          <span class="hero__last">ARYAL</span>
+        </h1>
+
+        <!-- Portrait -->
+        <figure class="hero__portrait">
+          <img
+            class="hero__photo"
+            src="Krishna.png"
+            alt="Portrait of Krishna Aryal"
+            width="320"
+            height="320"
+          />
+          <img
+            class="hero__photo-color"
+            src="Krishna.png"
+            alt=""
+            aria-hidden="true"
+            width="320"
+            height="320"
+          />
+        </figure>
+
+        <!-- Intro -->
+        <div class="hero__intro">
+          <h2 class="hero__role">Content Creator & Streamer</h2>
+          <p class="hero__lead">
+            Creating high-energy gaming videos, live streams, and freelance content across platforms.
+          </p>
+          <a href="#contact" class="btn btn--dark">
+            Let's collaborate
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <use href="#i-arrow-up-right" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Social pills -->
+        <ul class="hero__socials" aria-label="Social links">
+          <li>
+            <a
+              class="pill"
+              href="https://www.youtube.com/@4flaggamer"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-youtube" /></svg
+              >YouTube</a
+            >
+          </li>
+          <li>
+            <a
+              class="pill"
+              href="https://www.tiktok.com/@4flag_gamer"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-tiktok" /></svg
+              >TikTok</a
+            >
+          </li>
+          <li>
+            <a
+              class="pill"
+              href="https://www.instagram.com/4flaggamer.official/"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-instagram" /></svg
+              >Instagram</a
+            >
+          </li>
+          <li>
+            <a
+              class="pill"
+              href="https://kick.com/4flaggamer"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-kick" /></svg
+              >Kick</a
+            >
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <main>
+      <!-- =========================================================
+         HIGHLIGHTS
+         ========================================================= -->
+      <section
+        class="section section--light highlight"
+        id="highlights"
+        aria-labelledby="highlights-title"
+      >
+        <div class="section__panel">
+          <span class="section__watermark" aria-hidden="true">CONTENT</span>
+
+          <h2 class="section__title" id="highlights-title">
+            <span class="slash">/</span>FEATURED CONTENT
+          </h2>
+
+          <div class="highlight__toolbar">
+            <div class="filters" role="tablist" aria-label="Filter projects">
+              <button
+                class="filters__btn is-active"
+                role="tab"
+                aria-selected="true"
+                data-filter="all"
+              >
+                All
+              </button>
+              <button
+                class="filters__btn"
+                role="tab"
+                aria-selected="false"
+                data-filter="real"
+              >
+                Real Project
+              </button>
+              <button
+                class="filters__btn"
+                role="tab"
+                aria-selected="false"
+                data-filter="exploration"
+              >
+                Exploration
+              </button>
+            </div>
+
+            <a href="#" class="btn btn--outline btn--sm">
+              View All Highlights
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-arrow-up-right" />
+              </svg>
+            </a>
+          </div>
+
+          <ul class="highlight__grid">
+            <!-- Project 1 -->
+            <li class="card" data-category="exploration">
+              <a href="#" class="card__link">
+                <div class="card__media card__media--dark">
+                  <img
+                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNjAwIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCI+PGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJnIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZjRmOTMiIHN0b3Atb3BhY2l0eT0iLjg1Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmY0ZjkzIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iIzBiMGIwYiIvPjxlbGxpcHNlIGN4PSI0MDAiIGN5PSI0NzAiIHJ4PSIzMDAiIHJ5PSIxNjAiIGZpbGw9InVybCgjZykiLz4KPHJlY3QgeD0iMzAiIHk9IjI2IiB3aWR0aD0iNzQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiMxNTE1MTUiIHN0cm9rZT0iIzJhMmEyYSIvPjx0ZXh0IHg9IjYyIiB5PSI1MiIgZm9udC1mYW1pbHk9IkludGVyLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiPkJsb29tQ2FyZTwvdGV4dD48cmVjdCB4PSI2NDAiIHk9IjM0IiB3aWR0aD0iMTEwIiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNlODQ2N2MiLz4KPHRleHQgeD0iNDAwIiB5PSIxNTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJJbnRlcixBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjQwIiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZmZmIj5FbW90aW9uYWwgRW5naW5lIGZvcjwvdGV4dD48dGV4dCB4PSI0MDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkludGVyLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNDAiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNmMDZmYTAiPllvdXIgUGVyc29uYWwgR3Jvd3RoPC90ZXh0Pgo8cmVjdCB4PSIzMjAiIHk9IjI1MCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNDAiIHJ4PSIzMCIgZmlsbD0iIzExMSIgc3Ryb2tlPSIjZTg0NjdjIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzIiIHk9IjI2MiIgd2lkdGg9IjEzNiIgaGVpZ2h0PSIzMTYiIHJ4PSIyMiIgZmlsbD0iIzFiMTIyMCIvPjxyZWN0IHg9IjM0NiIgeT0iMzAwIiB3aWR0aD0iMTA4IiBoZWlnaHQ9IjUwIiByeD0iMTAiIGZpbGw9IiMzYTIwMzgiLz48cmVjdCB4PSIzNDYiIHk9IjM2MiIgd2lkdGg9IjEwOCIgaGVpZ2h0PSI1MCIgcng9IjEwIiBmaWxsPSIjMmMxYTJkIi8+PC9zdmc+"
+                    alt="BloomCare mental health app landing page"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 class="card__title">
+                  BloomCare - Mental Health App Landing Page
+                </h3>
+                <ul class="tags">
+                  <li class="tag">Landing Page</li>
+                  <li class="tag">Kumpin Studio</li>
+                </ul>
+              </a>
+            </li>
+
+            <!-- Project 2 -->
+            <li class="card" data-category="real">
+              <a href="#" class="card__link">
+                <div class="card__media">
+                  <span class="card__label">Real Project</span>
+                  <img
+                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNjAwIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJkIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmQzYTNhIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMGMwZjBmIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiNlOWU2ZTIiLz48cmVjdCB4PSIwIiB5PSI0MCIgd2lkdGg9IjQ3MCIgaGVpZ2h0PSI1NjAiIGZpbGw9InVybCgjZCkiLz4KPHJlY3QgeD0iMzAwIiB5PSIxOTAiIHdpZHRoPSI3MCIgaGVpZ2h0PSIxNTAiIHJ4PSI2IiBmaWxsPSIjMmEyYTJhIiBzdHJva2U9IiM3NzciLz48cmVjdCB4PSIzMTgiIHk9IjE2MCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjM0IiBmaWxsPSIjNDQ0Ii8+Cjx0ZXh0IHg9IjQwIiB5PSIxMjAiIGZvbnQtZmFtaWx5PSJJbnRlcixBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZmZmIj5QcmVtaXVtIFVuaXNleDwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMTU0IiBmb250LWZhbWlseT0iSW50ZXIsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2ZmZiI+RnJhZ3JhbmNlPC90ZXh0Pgo8cmVjdCB4PSI0OTAiIHk9IjYwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iIzk5OSIvPjxyZWN0IHg9IjY0MCIgeT0iNjAiIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjY2ZjYWM0Ii8+PHJlY3QgeD0iNDkwIiB5PSIyMjAiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTEwIiBmaWxsPSIjYmRiNmFkIi8+PHJlY3QgeD0iNDAiIHk9IjQ0MCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxMzAiIGZpbGw9IiM2YjVhNDYiLz48cmVjdCB4PSI1MjAiIHk9IjQwMCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNkOGQzY2MiLz4KPHJlY3QgeD0iMjQiIHk9IjIyIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjMwIiByeD0iMTUiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSI4NCIgeT0iNDIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJJbnRlcixBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNjAwIj5SZWFsIFByb2plY3Q8L3RleHQ+PC9zdmc+"
+                    alt="FragWater luxury fragrance landing page"
+                    loading="lazy"
+                  />
+                  <span class="card__cursor" aria-hidden="true">
+                    <svg class="icon" viewBox="0 0 24 24">
+                      <use href="#i-arrow-up-right" />
+                    </svg>
+                  </span>
+                </div>
+                <h3 class="card__title">
+                  FragWater - Luxury Fragrance Landing Page
+                </h3>
+                <ul class="tags">
+                  <li class="tag">Landing Page</li>
+                  <li class="tag">Kumpin Studio</li>
+                </ul>
+              </a>
+            </li>
+
+            <!-- Project 3 -->
+            <li class="card" data-category="exploration">
+              <a href="#" class="card__link">
+                <div class="card__media card__media--dark">
+                  <img
+                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNjAwIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjMTAxMDEwIi8+PHJlY3QgeD0iMzAiIHk9IjMwIiB3aWR0aD0iNzQwIiBoZWlnaHQ9IjQ2IiByeD0iMTAiIGZpbGw9IiMxYTFhMWEiLz48dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJJbnRlcixBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjZmZmIj5DcnlwdG9DYWxtPC90ZXh0Pgo8cmVjdCB4PSIzMCIgeT0iMTAwIiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjIzMCIgcng9IjEyIiBmaWxsPSIjMWExYTFhIi8+PHBhdGggZD0iTTUwIDMwMCBMMTMwIDI0MCBMMjAwIDI3MCBMMjkwIDE5MCBMMzcwIDIyMCBMNDkwIDE0MCIgc3Ryb2tlPSIjOGI1Y2Y2IiBzdHJva2Utd2lkdGg9IjQiIGZpbGw9Im5vbmUiLz4KPHJlY3QgeD0iNTMwIiB5PSIxMDAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMTA1IiByeD0iMTIiIGZpbGw9IiMxYTFhMWEiLz48cmVjdCB4PSI1MzAiIHk9IjIyNSIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIxMDUiIHJ4PSIxMiIgZmlsbD0iIzFhMWExYSIvPgo8cmVjdCB4PSIzMCIgeT0iMzUwIiB3aWR0aD0iNzQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzE3MTcxNyIvPjxyZWN0IHg9IjMwIiB5PSI0MDAiIHdpZHRoPSI3NDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMTcxNzE3Ii8+PHJlY3QgeD0iMzAiIHk9IjQ1MCIgd2lkdGg9Ijc0MCIgaGVpZ2h0PSI0MCIgcng9IjgiIGZpbGw9IiMxNzE3MTciLz4KPHJlY3QgeD0iNTYwIiB5PSIxMzAiIHdpZHRoPSI5MCIgaGVpZ2h0PSIxMiIgcng9IjYiIGZpbGw9IiM0NDQiLz48cmVjdCB4PSI1NjAiIHk9IjE1NiIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIyMiIgcng9IjYiIGZpbGw9IiMyMmM1NWUiLz48L3N2Zz4="
+                    alt="CryptoCalm crypto dashboard"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 class="card__title">CryptoCalm - Crypto Dashboard</h3>
+                <ul class="tags">
+                  <li class="tag">Dashboard</li>
+                  <li class="tag">Kumpin Studio</li>
+                </ul>
+              </a>
+            </li>
+
+            <!-- Project 4 -->
+            <li class="card" data-category="exploration">
+              <a href="#" class="card__link">
+                <div class="card__media">
+                  <img
+                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNjAwIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjZDlkYWQ5Ii8+PHJlY3QgeD0iMTcwIiB5PSI1MCIgd2lkdGg9IjIxMCIgaGVpZ2h0PSI0MzAiIHJ4PSIyMiIgZmlsbD0iIzExMSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIxNzYiIHk9IjU2IiB3aWR0aD0iMTk4IiBoZWlnaHQ9IjQxOCIgcng9IjE3IiBmaWxsPSIjMGYyYTIyIi8+PHJlY3QgeD0iNDIwIiB5PSIxMTAiIHdpZHRoPSIyMTAiIGhlaWdodD0iNDMwIiByeD0iMjIiIGZpbGw9IiMxMTEiIHN0cm9rZT0iIzQ0NCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNDI2IiB5PSIxMTYiIHdpZHRoPSIxOTgiIGhlaWdodD0iNDE4IiByeD0iMTciIGZpbGw9IiMwZjJhMjIiLz4KPHRleHQgeD0iMjc1IiB5PSIxNTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJJbnRlcixBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZmZmIj4kMTQsMjQwLjAwPC90ZXh0PjxyZWN0IHg9IjE5NiIgeT0iMTkwIiB3aWR0aD0iMTU4IiBoZWlnaHQ9IjUwIiByeD0iMTIiIGZpbGw9IiMxZjRhM2IiLz48cmVjdCB4PSIxOTYiIHk9IjI1NiIgd2lkdGg9IjE1OCIgaGVpZ2h0PSI1MCIgcng9IjEyIiBmaWxsPSIjMTgzODJkIi8+CjxyZWN0IHg9IjQ0NiIgeT0iMjEwIiB3aWR0aD0iMTU4IiBoZWlnaHQ9IjUwIiByeD0iMTIiIGZpbGw9IiMxZjRhM2IiLz48L3N2Zz4="
+                    alt="Mobile finance app screens"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 class="card__title">Finance - Mobile Wallet App</h3>
+                <ul class="tags">
+                  <li class="tag">Mobile App</li>
+                  <li class="tag">Kumpin Studio</li>
+                </ul>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- =========================================================
+         SERVICE
+         ========================================================= -->
+      <section
+        class="section service"
+        id="service"
+        aria-labelledby="service-title"
+      >
+        <span class="section__watermark" aria-hidden="true">SERVICE</span>
+        <div class="service__inner">
+          <h2 class="section__title section__title--sm" id="service-title">
+            <span class="slash">/</span>SERVICE
+          </h2>
+
+          <ul class="accordion">
+            <li class="accordion__item is-open">
+              <button
+                class="accordion__head"
+                aria-expanded="true"
+                aria-controls="svc-1"
+                id="svc-1-btn"
+              >
+                <span class="accordion__name">UIUX DESIGN</span>
+                <span class="accordion__toggle" aria-hidden="true">
+                  <svg class="icon icon--arrow" viewBox="0 0 24 24">
+                    <use href="#i-arrow-up-right" />
+                  </svg>
+                  <svg class="icon icon--close" viewBox="0 0 24 24">
+                    <use href="#i-close" />
+                  </svg>
+                </span>
+              </button>
+              <div
+                class="accordion__body"
+                id="svc-1"
+                role="region"
+                aria-labelledby="svc-1-btn"
+              >
+                <p>
+                  Designing clear and scalable interfaces for dashboards, mobile
+                  apps, and websites.
+                </p>
+                <img
+                  class="accordion__preview"
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZjNmM2YzIi8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+            </li>
+
+            <li class="accordion__item">
+              <button
+                class="accordion__head"
+                aria-expanded="false"
+                aria-controls="svc-2"
+                id="svc-2-btn"
+              >
+                <span class="accordion__name">TIK TOK &amp; SHORTS EDITING</span>
+                <span class="accordion__toggle" aria-hidden="true">
+                  <svg class="icon icon--arrow" viewBox="0 0 24 24">
+                    <use href="#i-arrow-up-right" />
+                  </svg>
+                  <svg class="icon icon--close" viewBox="0 0 24 24">
+                    <use href="#i-close" />
+                  </svg>
+                </span>
+              </button>
+              <div
+                class="accordion__body"
+                id="svc-2"
+                role="region"
+                aria-labelledby="svc-2-btn"
+                hidden
+              >
+                <p>
+                  Crafting fast-paced, viral vertical video clips designed to capture maximum attention..
+                </p>
+                <img
+                  class="accordion__preview"
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZTZlY2Y1Ii8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+            </li>
+
+            <li class="accordion__item">
+              <button
+                class="accordion__head"
+                aria-expanded="false"
+                aria-controls="svc-3"
+                id="svc-3-btn"
+              >
+                <span class="accordion__name">PROMOTION</span>
+                <span class="accordion__toggle" aria-hidden="true">
+                  <svg class="icon icon--arrow" viewBox="0 0 24 24">
+                    <use href="#i-arrow-up-right" />
+                  </svg>
+                  <svg class="icon icon--close" viewBox="0 0 24 24">
+                    <use href="#i-close" />
+                  </svg>
+                </span>
+              </button>
+              <div
+                class="accordion__body"
+                id="svc-3"
+                role="region"
+                aria-labelledby="svc-3-btn"
+                hidden
+              >
+                <p>
+                  Boost your brand's visibility and reach the right audience with creative promotional strategies.
+                </p>
+                <img
+                  class="accordion__preview"
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZjFlYmU0Ii8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+            </li>
+
+            <li class="accordion__item">
+              <button
+                class="accordion__head"
+                aria-expanded="false"
+                aria-controls="svc-4"
+                id="svc-4-btn"
+              >
+                <span class="accordion__name">CONTENT CREATION</span>
+                <span class="accordion__toggle" aria-hidden="true">
+                  <svg class="icon icon--arrow" viewBox="0 0 24 24">
+                    <use href="#i-arrow-up-right" />
+                  </svg>
+                  <svg class="icon icon--close" viewBox="0 0 24 24">
+                    <use href="#i-close" />
+                  </svg>
+                </span>
+              </button>
+              <div
+                class="accordion__body"
+                id="svc-4"
+                role="region"
+                aria-labelledby="svc-4-btn"
+                hidden
+              >
+                <p>
+                  Strategic content planning, posting, and audience engagement to grow your online presence.
+                </p>
+                <img
+                  class="accordion__preview"
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZWNlNmYzIi8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- =========================================================
+         MILESTONES
+         ========================================================= -->
+      <section
+        class="section section--dark milestone"
+        id="milestones"
+        aria-labelledby="milestones-title"
+      >
+        <div class="section__panel">
+          <span class="section__watermark" aria-hidden="true">MILESTONES</span>
+
+          <header class="milestone__head">
+            <h2 class="section__title" id="milestones-title">
+              <span class="slash">/</span>MILESTONES
+            </h2>
+            <p class="milestone__years">9+ years of Content Creation, Gaming & Brand Collaboration</p>
+          </header>
+
+          <ol class="timeline">
+            <li class="timeline__row">
+              <div class="timeline__who">
+                <h3 class="timeline__company">TikTok Verified Creator</h3>
+                <p class="timeline__role">Received official verification on TikTok.</p>
+              </div>
+              <img
+                class="timeline__preview"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZDlkOWQ5Ii8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                alt=""
+                loading="lazy"
+              />
+              <time class="timeline__date">July 2026 - Now</time>
+            </li>
+
+            <li class="timeline__row">
+              <div class="timeline__who">
+                <h3 class="timeline__company">Global Top Creator Award — Garena</h3>
+                <p class="timeline__role">Recognized as a Global Top Creator by Garena.</p>
+              </div>
+              <img
+                class="timeline__preview"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZTRkZWRlIi8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                alt=""
+                loading="lazy"
+              />
+              <time class="timeline__date">Jun 2026</time>
+            </li>
+
+            <li class="timeline__row">
+              <div class="timeline__who">
+                <h3 class="timeline__company">YouTube Gold Play Button — 4Flag Gamer</h3>
+                <p class="timeline__role">Reached 1 million subscribers on the 4Flag Gamer channel.</p>
+              </div>
+              <img
+                class="timeline__preview"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZGRlNmVlIi8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                alt=""
+                loading="lazy"
+              />
+              <time class="timeline__date">Nov 2023</time>
+            </li>
+
+            <li class="timeline__row">
+              <div class="timeline__who">
+                <h3 class="timeline__company">Influencer Partner — Garena</h3>
+                <p class="timeline__role">Became an official Influencer Partner of Garena Free Fire.</p>
+              </div>
+              <img
+                class="timeline__preview"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZGRlM2YzIi8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                alt=""
+                loading="lazy"
+              />
+              <time class="timeline__date">Feb 2023 - Now</time>
+            </li>
+
+            <li class="timeline__row">
+              <div class="timeline__who">
+                <h3 class="timeline__company">Freelance Content Creator</h3>
+                <p class="timeline__role">Create digital content for online platforms.</p>
+              </div>
+              <img
+                class="timeline__preview"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCI+PGRlZnM+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZThlOGU4Ii8+PHJlY3QgeD0iNDAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ2IiB5PSIzNiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjIyOCIgcng9IjkiIGZpbGw9IiNlOGVlZmMiLz48cmVjdCB4PSIxNjAiIHk9IjMwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI0MCIgcng9IjE0IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjE2NiIgeT0iMzYiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMjgiIHJ4PSI5IiBmaWxsPSIjZThlZWZjIi8+PHJlY3QgeD0iMjgwIiB5PSIzMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIyNDAiIHJ4PSIxNCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIyODYiIHk9IjM2IiB3aWR0aD0iODgiIGhlaWdodD0iMjI4IiByeD0iOSIgZmlsbD0iI2U4ZWVmYyIvPjwvc3ZnPg=="
+                alt=""
+                loading="lazy"
+              />
+              <time class="timeline__date">Jan 2017 - Now</time>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- =========================================================
+         CONTACT / CTA
+         ========================================================= -->
+      <section
+        class="section contact"
+        id="contact"
+        aria-labelledby="contact-title"
+      >
+        <div class="contact__card">
+          <p class="badge badge--status">
+            <span class="badge__dot" aria-hidden="true"></span>
+             Open for Collabs & Sponsorships 
+          </p>
+
+          <h2 class="contact__title" id="contact-title">
+            WANT TO COLLAB OR SPONSOR?
+          </h2>
+          <p class="contact__text">
+             Get in touch for gaming sponsorships, freelance editing projects, or community partnerships. Let's create something epic together! 
+          </p>
+
+          <a href="mailto:krishnaaryal014@gmail.com" class="btn btn--dark">
+            Contact Me
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <use href="#i-arrow-up-right" />
+            </svg>
+          </a>
+        </div>
+
+        <ul class="contact__links" aria-label="Find me online">
+          <li>
+            <a class="pill pill--dark" href="#home">
+              <img
+                class="pill__avatar"
+                src="profile.jpeg"
+                alt=""
+                width="24"
+                height="24"
+              />Krishna Aryal</a
+            >
+          </li>
+          <li>
+            <a
+              class="pill"
+              href="https://www.linkedin.com/in/krishna-aryal-a808072a7/?isSelfProfile=false"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-linkedin" /></svg
+              >LinkedIn</a
+            >
+          </li>
+          <li>
+            <a
+              class="pill"
+              href="https://www.youtube.com/@4flaggamer"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-youtube" /></svg
+              >YouTube</a
+            >
+          </li>
+          <li>
+            <a
+              class="pill"
+              href="https://www.tiktok.com/@4flag_gamer"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-tiktok" /></svg
+              >TikTok</a
+            >
+          </li>
+          <li>
+            <a
+              class="pill"
+              href="https://www.instagram.com/4flaggamer.official/"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-instagram" /></svg
+              >Instagram</a
+            >
+          </li>
+          <li>
+            <a
+              class="pill"
+              href="https://kick.com/4flaggamer"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-kick" /></svg
+              >Kick</a
+            >
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        &copy; <span id="year">2026</span> Krishna Aryal. All rights reserved.
+      </p>
+    </footer>
+
+    <!-- =========================================================
+       SVG ICON SPRITE
+       ========================================================= -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <symbol
+        id="i-arrow-up-right"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M7 17L17 7M8 7h9v9" />
+      </symbol>
+      <symbol
+        id="i-close"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+      >
+        <path d="M6 6l12 12M18 6L6 18" />
+      </symbol>
+      <symbol
+        id="i-instagram"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17" cy="7" r=".6" fill="currentColor" />
+      </symbol>
+      <symbol
+        id="i-linkedin"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3.5" y="3.5" width="17" height="17" rx="3" />
+        <path
+          d="M8 10.5V16M8 7.8v.01M11.5 16v-5.5M11.5 13c0-1.5 1-2.5 2.3-2.5s2.2 1 2.2 2.5V16"
+        />
+      </symbol>
+      <symbol id="i-youtube" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.6V8.4L15.9 12l-6.3 3.6z"
+        />
+      </symbol>
+      <symbol id="i-tiktok" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M19.6 6.2a5.7 5.7 0 01-3.5-1.2v8.2a6.2 6.2 0 11-5.4-6.1v3.4a2.8 2.8 0 102 2.7V0h3.4a5.8 5.8 0 003.5 5.3v.9z"
+        />
+      </symbol>
+      <symbol id="i-kick" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M4 3h5v6l5.8-6H21l-7 8 7 10h-6.2L10 14.4 9 15.5V21H4z" />
+      </symbol>
+    </svg>
+
+    <script src="Script.js">  </script>
+  </body>
+</html>
