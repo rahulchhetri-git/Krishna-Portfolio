@@ -1,3 +1,4 @@
+/* ---------- Browser defaults ---------- */
 :root {
   color-scheme: light;
   box-sizing: border-box;
@@ -235,7 +236,7 @@ sup {
   }
 }
 
-/* Section scaffolding */
+/* ---------- Shared section layout ---------- */
 .section {
   padding: clamp(24px, 4vw, 48px) var(--gutter);
 }
@@ -468,7 +469,7 @@ sup {
 }
 .filters__btn:hover,
 .filters__btn.is-active {
-  color: var(--ink);
+  color: #15803d;
 }
 .filters__btn.is-active::after {
   content: "";
@@ -476,20 +477,39 @@ sup {
   left: 0;
   right: 0;
   bottom: -2px;
-  height: 1.5px;
-  background: var(--ink);
+  height: 2px;
+  background: var(--green);
 }
 
 .highlight__grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(18px, 3vw, 32px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 940px;
+  margin-inline: auto;
+  gap: clamp(16px, 2.4vw, 24px);
 }
 .card {
   transition:
     opacity 0.35s ease,
     transform 0.35s ease;
+}
+.highlight__grid .card {
+  padding: 10px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 12px;
+  background: linear-gradient(145deg, #fff 55%, #f5faf6);
+  box-shadow: 0 8px 24px rgba(17, 17, 17, 0.045);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.highlight__grid .card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(34, 197, 94, 0.38);
+  box-shadow: 0 14px 30px rgba(17, 17, 17, 0.09);
 }
 .card[hidden] {
   display: none;
@@ -500,12 +520,40 @@ sup {
 
 .card__media {
   position: relative;
+  display: block;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
   background: #eee;
 }
 .card__media--dark {
   background: #0d0d0d;
+}
+.card__media--vertical {
+  width: min(100%, 290px);
+  aspect-ratio: 9 / 16;
+  margin-inline: auto;
+  background: #0d0d0d;
+}
+.card__media--tiktok {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  margin: 0;
+  color: #fff;
+  background:
+    radial-gradient(circle at 50% 42%, #343434 0, #111 56%, #080808 100%);
+}
+@media (min-width: 901px) {
+  .highlight__grid .card__media,
+  .highlight__grid .card__media--vertical {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+  }
+  .kick-clip__image {
+    object-position: 25% center;
+  }
 }
 .card__media img {
   width: 100%;
@@ -539,40 +587,124 @@ sup {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #fff;
-  color: var(--ink);
+  padding: 0;
+  border: 0;
+  background: var(--green);
+  color: #07190d;
   font-size: 1.2rem;
-  transform: translate(-50%, -50%) scale(0.6);
-  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0.94;
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.25),
+    0 0 0 5px rgba(255, 255, 255, 0.82);
+  cursor: pointer;
 }
 .card__link:hover .card__cursor {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
 }
-
+.card__cursor:focus-visible {
+  outline: 3px solid #15803d;
+  outline-offset: 4px;
+}
+.card__tiktok-play {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green);
+  color: #07190d;
+  font-size: 1.2rem;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0.94;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.25),
+    0 0 0 5px rgba(255, 255, 255, 0.82);
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+.card__media--tiktok:hover .card__tiktok-play,
+.card__tiktok-play:focus-visible {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+.card__tiktok-play:focus-visible {
+  outline: 3px solid #15803d;
+  outline-offset: 4px;
+}
+.card__media iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.card__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #0d0d0d;
+  object-fit: contain;
+}
+.card__playback-hint {
+  position: absolute;
+  inset: auto 8px 8px;
+  padding: 8px 10px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.78);
+  font-size: 0.75rem;
+  text-align: center;
+}
+.card__playback-error {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  color: #fff;
+  text-align: center;
+  font-size: 0.85rem;
+}
+.card__source {
+  display: inline-block;
+  margin: 12px 2px 0;
+  font-size: 0.78rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.card__source:hover {
+  color: var(--ink-soft);
+}
 .card__title {
   margin-top: 14px;
   padding: 0 2px;
-  font: 500 1.02rem/1.35 var(--font-head);
+  font: 500 0.96rem/1.35 var(--font-head);
 }
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 10px;
   padding-bottom: 6px;
 }
 .tag {
   padding: 0.45em 1em;
   font-size: 0.72rem;
   font-weight: 500;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(34, 197, 94, 0.2);
   border-radius: var(--radius-pill);
-  background: #fff;
+  background: #f0f8f1;
+  color: #245b35;
 }
 
 /* ---------- 7. Service accordion ---------- */
@@ -806,6 +938,7 @@ sup {
 
 /* ---------- 11. Responsive ---------- */
 @media (max-width: 900px) {
+  /* Tablet and smaller layouts */
   .section__watermark {
     font-size: clamp(3rem, 11vw, 6rem);
   }
@@ -898,6 +1031,7 @@ sup {
 }
 
 @media (max-width: 640px) {
+  /* Mobile layouts */
   .section__panel {
     padding: clamp(20px, 5vw, 28px);
   }
@@ -980,6 +1114,7 @@ sup {
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
+/* Scroll-linked animations */
 @keyframes scroll-progress {
   to {
     transform: scaleX(1);
@@ -1019,6 +1154,7 @@ sup {
   }
 }
 
+/* Entrance animation keyframes */
 @keyframes rise {
   from {
     opacity: 0;
@@ -1052,7 +1188,7 @@ sup {
   }
 }
 
-/* Hero: staged entrance on load */
+/* Hero entrance on page load */
 .nav {
   animation: fadeDown 0.8s var(--ease) 0.1s backwards;
 }
@@ -1084,7 +1220,7 @@ sup {
   animation-delay: 1.2s;
 }
 
-/* Hero: scroll-driven fade-out (--p set from JS, 0 → 1) */
+/* Hero fade-out on scroll (--p is set by JavaScript, from 0 to 1) */
 .hero__frame {
   scale: calc(1 - var(--p, 0) * 0.05);
   opacity: calc(1 - var(--p, 0) * 0.7);
@@ -1102,8 +1238,7 @@ sup {
   opacity: calc(1 - var(--p, 0) * 1.8);
 }
 
-/* Sections: reveal on scroll. JS adds .is-pending to elements below the fold,
-   then swaps it for .is-in when they enter the viewport. */
+/* Section reveal on scroll: JavaScript swaps .is-pending for .is-in */
 .is-pending {
   opacity: 0;
 }
@@ -1117,7 +1252,7 @@ sup {
   animation-duration: 1.2s;
 }
 
-/* Service accordion: open state */
+/* Service accordion open-state animations */
 .accordion__item.is-open .accordion__preview {
   animation: popTilt 0.7s var(--ease) 0.1s backwards;
 }
@@ -1131,11 +1266,12 @@ sup {
     border-radius 0.4s;
 }
 
-/* Filter change: cards pop back in */
+/* Highlight cards animate back in when the filter changes */
 .card.is-refresh {
   animation: rise 0.7s var(--ease) var(--d, 0s) backwards;
 }
 
+/* Reduced-motion overrides */
 @media (prefers-reduced-motion: reduce) {
   .is-pending {
     opacity: 1;
@@ -1152,6 +1288,7 @@ sup {
   }
 }
 
+/* Safe-area spacing */
 body {
   padding-left: max(0px, env(safe-area-inset-left, 0px));
   padding-right: max(0px, env(safe-area-inset-right, 0px));
