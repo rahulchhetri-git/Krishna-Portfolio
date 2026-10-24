@@ -806,19 +806,88 @@ sup {
 
 /* ---------- 11. Responsive ---------- */
 @media (max-width: 900px) {
+  .section__watermark {
+    font-size: clamp(3rem, 11vw, 6rem);
+  }
+  .section__panel {
+    min-width: 0;
+    padding: clamp(24px, 4vw, 40px);
+  }
   .nav {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "status action"
+      "links links";
+    width: 100%;
+    min-width: 0;
+  }
+  .nav > .badge--status {
+    grid-area: status;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .nav > .btn {
+    grid-area: action;
+    justify-self: end;
   }
   .nav__links {
-    order: 3;
+    grid-area: links;
+    flex-wrap: wrap;
     width: 100%;
+    min-width: 0;
     justify-content: center;
+    gap: 8px clamp(12px, 3vw, 24px);
   }
   .hero__frame {
-    min-height: 640px;
+    min-height: clamp(700px, 90vw, 820px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto minmax(280px, 1fr) auto;
+    grid-template-areas:
+      "nav nav"
+      "title title"
+      "portrait portrait"
+      "intro socials";
+    row-gap: clamp(12px, 2vw, 20px);
+  }
+  .nav {
+    grid-area: nav;
+  }
+  .hero__title {
+    grid-area: title;
+    width: 100%;
+    min-width: 0;
+    margin-top: clamp(12px, 2vw, 24px);
+  }
+  .hero__portrait {
+    position: relative;
+    grid-area: portrait;
+    left: auto;
+    bottom: auto;
+    align-self: center;
+    justify-self: center;
+    width: clamp(260px, 40vw, 360px);
+    transform: none;
+  }
+  .hero__frame .hero__portrait {
+    animation-name: rise;
+  }
+  .hero__intro {
+    position: relative;
+    grid-area: intro;
+    left: auto;
+    bottom: auto;
+    align-self: center;
+    max-width: none;
   }
   .hero__socials {
+    position: relative;
+    grid-area: socials;
+    right: auto;
+    bottom: auto;
+    align-self: center;
     grid-template-columns: repeat(2, auto);
+    justify-self: end;
   }
   .hero__socials .pill {
     justify-content: center;
@@ -829,24 +898,53 @@ sup {
 }
 
 @media (max-width: 640px) {
+  .section__panel {
+    padding: clamp(20px, 5vw, 28px);
+  }
+  .section__watermark {
+    font-size: clamp(2rem, 11vw, 4.5rem);
+  }
   .highlight__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero__frame {
+    min-height: clamp(740px, 200vw, 880px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(220px, 1fr) auto auto;
+    grid-template-areas:
+      "nav"
+      "title"
+      "portrait"
+      "intro"
+      "socials";
   }
   .hero__title {
     flex-direction: column;
     align-items: center;
     gap: 0;
     line-height: 0.92;
-    font-size: clamp(3.6rem, 22vw, 6rem);
+    font-size: clamp(2.8rem, 15.5vw, 6rem);
+  }
+  .hero__portrait {
+    width: clamp(220px, 68vw, 360px);
+    max-width: 100%;
   }
   .hero__intro {
-    max-width: 190px;
+    width: 100%;
+    max-width: none;
   }
   .hero__socials {
-    grid-template-columns: 1fr;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    justify-self: stretch;
   }
   .hero__socials .pill {
     padding: 0.55em 0.8em;
+    font-size: 0.7rem;
+  }
+  .hero__portrait img {
+    object-position: center 12%;
   }
   .accordion__preview,
   .timeline__preview {
@@ -856,6 +954,13 @@ sup {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+  }
+  .timeline__date {
+    white-space: normal;
+  }
+  .filters {
+    flex-wrap: wrap;
+    row-gap: 8px;
   }
 }
 
