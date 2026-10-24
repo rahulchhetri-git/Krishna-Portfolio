@@ -269,7 +269,7 @@
           let ticking = false;
           const update = () => {
             const p = Math.min(
-              Math.max(window.scrollY / (hero.offsetHeight * 0.85), 0),
+              Math.max(window.scrollY / (hero.offsetHeight * 1.3), 0),
               1,
             );
             hero.style.setProperty("--p", p.toFixed(3));
