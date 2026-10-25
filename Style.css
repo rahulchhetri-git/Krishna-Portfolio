@@ -372,10 +372,17 @@ sup {
   bottom: 0;
   transform: translateX(-50%);
   width: clamp(240px, 40vw, 500px);
-  aspect-ratio: 1;
+  aspect-ratio: 3 / 4;
   margin: 0;
   -webkit-mask-image: linear-gradient(#000 82%, transparent);
   mask-image: linear-gradient(#000 82%, transparent);
+}
+@media (min-width: 901px) {
+  .hero__frame {
+    min-height: calc(
+      clamp(560px, 50vw, 660px) + clamp(240px, 40vw, 500px) / 3
+    );
+  }
 }
 .hero__portrait img {
   width: 100%;
@@ -444,10 +451,19 @@ sup {
   border: 1px solid var(--line);
   box-shadow: none;
 }
+@media (min-width: 901px) {
+  .hero__intro,
+  .hero__socials {
+    bottom: calc(
+      clamp(20px, 3vw, 36px) + clamp(240px, 40vw, 500px) / 3
+    );
+  }
+}
 
 /* ---------- 6. Highlights ---------- */
 .highlight {
   background: #fff;
+  padding-bottom: clamp(12px, 2vw, 24px);
 }
 .highlight .section__panel {
   max-width: 1280px;
@@ -457,12 +473,6 @@ sup {
 }
 .highlight .section__title {
   margin-bottom: 10px;
-}
-.highlight__intro {
-  position: relative;
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  text-align: center;
 }
 .highlight__toolbar {
   position: relative;
@@ -477,42 +487,38 @@ sup {
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 3px 12px rgba(17, 17, 17, 0.035);
+  gap: 24px;
+  padding: 0;
   font-size: 0.78rem;
   font-weight: 500;
 }
 .filters__btn {
   color: var(--ink-soft);
-  padding: 0.65em 1em;
-  border-radius: var(--radius-pill);
+  padding: 0.65em 0;
   position: relative;
   transition:
     color 0.2s,
-    background 0.2s,
-    box-shadow 0.2s;
+    background 0.2s;
 }
 .filters__btn:hover,
 .filters__btn.is-active {
-  color: #14532d;
+  color: #111;
 }
 .filters__btn.is-active::after {
-  display: none;
-}
-.filters__btn.is-active {
-  background: #e7f6e9;
-  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.18);
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #111;
 }
 
 .highlight__grid {
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-width: 1040px;
+  max-width: 880px;
   margin-inline: auto;
   gap: clamp(16px, 2.2vw, 24px);
 }
@@ -523,21 +529,16 @@ sup {
 }
 .highlight__grid .card {
   height: 100%;
-  padding: 12px;
-  border: 1px solid rgba(17, 17, 17, 0.07);
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 5px 20px rgba(17, 17, 17, 0.045);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
   transition:
     opacity 0.35s ease,
-    transform 0.35s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.35s ease;
 }
 .highlight__grid .card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(34, 197, 94, 0.32);
-  box-shadow: 0 14px 30px rgba(17, 17, 17, 0.085);
+  transform: none;
 }
 .card[hidden] {
   display: none;
@@ -553,7 +554,7 @@ sup {
   display: block;
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  border-radius: 10px;
+  border-radius: 14px;
   background: #eee;
 }
 .card__media--dark {
@@ -575,9 +576,19 @@ sup {
   background:
     radial-gradient(circle at 50% 42%, #343434 0, #111 56%, #080808 100%);
 }
+.card__media--tiktok:not(.is-playing) iframe {
+  visibility: hidden;
+}
+.card__media--tiktok.is-playing .card__tiktok-thumbnail {
+  visibility: hidden;
+}
+.card__media--tiktok.is-playing .card__tiktok-play {
+  display: none;
+}
 .highlight__grid .card__media {
   width: 100%;
   aspect-ratio: 3 / 2;
+  border-radius: 0;
 }
 @media (min-width: 901px) {
   .kick-clip__image {
@@ -589,6 +600,9 @@ sup {
   height: 100%;
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.card__tiktok-thumbnail {
+  filter: none;
 }
 .card__link:hover .card__media img {
   transform: scale(1.05);
@@ -611,24 +625,22 @@ sup {
   z-index: 2;
   left: 50%;
   top: 50%;
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   padding: 0;
   border: 0;
-  background: var(--green);
-  color: #07190d;
-  font-size: 1.2rem;
+  background: #fff;
+  color: #111;
+  font-size: 1.8rem;
   transform: translate(-50%, -50%) scale(0.9);
   opacity: 0.94;
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
-  box-shadow:
-    0 6px 20px rgba(0, 0, 0, 0.25),
-    0 0 0 5px rgba(255, 255, 255, 0.82);
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.65));
   cursor: pointer;
 }
 .card__link:hover .card__cursor {
@@ -636,7 +648,7 @@ sup {
   opacity: 1;
 }
 .card__cursor:focus-visible {
-  outline: 3px solid #15803d;
+  outline: 2px solid #fff;
   outline-offset: 4px;
 }
 .card__tiktok-play {
@@ -645,18 +657,16 @@ sup {
   left: 50%;
   top: 50%;
   display: grid;
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 60px;
   place-items: center;
   border-radius: 50%;
-  background: var(--green);
-  color: #07190d;
-  font-size: 1.2rem;
+  background: #fff;
+  color: #111;
+  font-size: 1.8rem;
   transform: translate(-50%, -50%) scale(0.9);
-  opacity: 0.94;
-  box-shadow:
-    0 6px 20px rgba(0, 0, 0, 0.25),
-    0 0 0 5px rgba(255, 255, 255, 0.82);
+  opacity: 1;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.65));
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
@@ -667,7 +677,7 @@ sup {
   opacity: 1;
 }
 .card__tiktok-play:focus-visible {
-  outline: 3px solid #15803d;
+  outline: 2px solid #fff;
   outline-offset: 4px;
 }
 .card__media iframe {
@@ -712,7 +722,7 @@ sup {
   padding: 0.55em 0;
   font-size: 0.78rem;
   font-weight: 600;
-  color: #245b35;
+  color: #111;
   text-decoration: none;
   transition:
     color 0.2s,
@@ -720,7 +730,7 @@ sup {
 }
 .card__source:hover {
   gap: 4px;
-  color: #15803d;
+  color: #111;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -741,16 +751,17 @@ sup {
   padding: 0.4em 0.85em;
   font-size: 0.68rem;
   font-weight: 500;
-  border: 1px solid rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(17, 17, 17, 0.12);
   border-radius: var(--radius-pill);
-  background: #f0f8f1;
-  color: #245b35;
+  background: #f6f6f6;
+  color: #111;
 }
 
 /* ---------- 7. Service accordion ---------- */
 .service {
   position: relative;
   overflow: hidden;
+  padding-top: clamp(12px, 2vw, 24px);
   margin-bottom: clamp(32px, 4vw, 48px);
 }
 

@@ -194,6 +194,8 @@
             const frame = media?.querySelector("iframe");
             if (!frame) return;
 
+            media.classList.add("is-playing");
+            button.hidden = true;
             button.dataset.playRequested = "true";
             const playerUrl = new URL(frame.src);
             playerUrl.searchParams.set("autoplay", "1");
