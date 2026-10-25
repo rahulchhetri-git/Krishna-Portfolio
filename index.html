@@ -63,15 +63,12 @@
             alt="Portrait of Krishna Aryal"
             width="320"
             height="320"
+            fetchpriority="high"
+            decoding="async"
           />
-          <img
-            class="hero__photo-color"
-            src="Krishna.png"
-            alt=""
-            aria-hidden="true"
-            width="320"
-            height="320"
-          />
+          <div class="hero__spot" aria-hidden="true">
+            <img src="Krishna.png" alt="" decoding="async" />
+          </div>
         </figure>
 
         <!-- Intro -->
@@ -325,17 +322,12 @@
                     loading="lazy"
                     decoding="async"
                   />
-                  <iframe
-                    src="https://www.tiktok.com/player/v1/7696826453308214549?music_info=1&amp;description=1"
-                    title="4Flag Gamer TikTok video"
-                    loading="lazy"
-                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                    allowfullscreen
-                    referrerpolicy="strict-origin-when-cross-origin"
-                  ></iframe>
                   <button
-                    class="card__tiktok-play"
+                    class="card__cursor card__play"
                     type="button"
+                    data-provider="tiktok"
+                    data-embed-url="https://www.tiktok.com/player/v1/7696826453308214549?music_info=1&amp;description=1&amp;autoplay=1"
+                    data-video-title="4Flag Gamer TikTok video"
                     aria-label="Play 4Flag Gamer's TikTok video"
                   >
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -357,6 +349,17 @@
               </div>
             </li>
           </ul>
+
+          <!-- Video player (phones): opens here, below the grid -->
+          <div class="stage" id="player-stage" hidden>
+            <div class="stage__bar">
+              <p class="stage__title"></p>
+              <button class="stage__close" type="button" aria-label="Close video">
+                &#10005;
+              </button>
+            </div>
+            <div class="stage__media"></div>
+          </div>
         </div>
       </section>
 

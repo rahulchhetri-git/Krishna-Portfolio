@@ -220,20 +220,19 @@ sup {
   box-shadow: var(--shadow-pill);
 }
 .badge__dot {
+  position: relative;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
-  animation: pulse 2s infinite;
 }
-@keyframes pulse {
-  70% {
-    box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-  }
+.badge__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--green);
+  animation: dotRing 2s ease-out infinite;
 }
 
 /* ---------- Shared section layout ---------- */
@@ -414,28 +413,35 @@ sup {
   -webkit-user-drag: none;
   user-select: none;
 }
-/* Colour copy of the photo, revealed through a small circle that follows the cursor */
-.hero__portrait .hero__photo-color {
+/* Colour spotlight: a small round window onto a colour copy of the photo.
+   JavaScript moves it with transforms only (GPU), so it never lags. */
+.hero__spot {
   position: absolute;
-  inset: 0;
-  filter: none;
+  left: 0;
+  top: 0;
+  width: calc(var(--spot, 64px) * 2);
+  height: calc(var(--spot, 64px) * 2);
+  overflow: hidden;
   opacity: 0;
+  transform: translate3d(-999px, -999px, 0);
   transition: opacity 0.35s ease;
-  -webkit-mask-image: radial-gradient(
-    circle var(--spot, 64px) at var(--mx, 50%) var(--my, 40%),
-    #000 0,
-    #000 62%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    circle var(--spot, 64px) at var(--mx, 50%) var(--my, 40%),
-    #000 0,
-    #000 62%,
-    transparent 100%
-  );
   pointer-events: none;
+  will-change: transform;
+  -webkit-mask-image: radial-gradient(
+    circle closest-side,
+    #000 62%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(circle closest-side, #000 62%, transparent 100%);
 }
-.hero__portrait.is-hover .hero__photo-color {
+.hero__portrait .hero__spot img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  filter: none;
+  will-change: transform;
+}
+.hero__portrait.is-hover .hero__spot {
   opacity: 1;
 }
 
@@ -658,7 +664,7 @@ sup {
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.65));
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
   cursor: pointer;
 }
 .card__link:hover .card__cursor {
@@ -684,7 +690,7 @@ sup {
   font-size: 1.8rem;
   transform: translate(-50%, -50%) scale(0.9);
   opacity: 1;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.65));
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
@@ -698,14 +704,16 @@ sup {
   outline: 2px solid #fff;
   outline-offset: 4px;
 }
-.card__media iframe {
+.card__media iframe,
+.stage__media iframe {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
 }
-.card__media video {
+.card__media video,
+.stage__media video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -937,11 +945,11 @@ sup {
 /* Hover preview floats next to the cursor row */
 .timeline__preview {
   position: absolute;
-  left: 36%;
+  left: 0;
   top: 50%;
   width: clamp(110px, 14vw, 160px);
   border-radius: 6px;
-  transform: translateY(-65%) rotate(-3deg) scale(0.85);
+  transform: translate3d(var(--px, 260px), -65%, 0) rotate(-3deg) scale(0.85);
   opacity: 0;
   pointer-events: none;
   transition:
@@ -951,7 +959,7 @@ sup {
 }
 .timeline__row:hover .timeline__preview {
   opacity: 1;
-  transform: translateY(-65%) rotate(-3deg) scale(1);
+  transform: translate3d(var(--px, 260px), -65%, 0) rotate(-3deg) scale(1);
 }
 .timeline__row:hover .timeline__company {
   text-decoration: underline;
@@ -1103,8 +1111,23 @@ sup {
     align-self: center;
     margin-inline: auto;
   }
+  /* Background word sits ABOVE the title in normal flow, so it can never
+     be clipped by the section edge or collide with the heading. */
   .section__watermark {
-    font-size: clamp(2rem, 11vw, 4.5rem);
+    position: static;
+    display: block;
+    margin: 0 0 -0.3em;
+    font-size: clamp(2.2rem, 13vw, 4rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .milestone .section__watermark {
+    font-size: clamp(1.8rem, 10vw, 3.2rem);
+  }
+  /* Service: no extra top gap, so its heading overlaps the background word
+     exactly like Featured Content and Milestones do. */
+  .service__inner {
+    padding-top: 0;
   }
 
   /* Featured content: compact 2-column grid, like desktop */
@@ -1145,22 +1168,6 @@ sup {
     padding: 0.3em 0;
     font-size: 0.68rem;
   }
-  /* A card that is playing grows to full width so the video is watchable */
-  .highlight__grid .card.is-expanded {
-    grid-column: 1 / -1;
-  }
-  .highlight__grid .card.is-expanded .card__media {
-    aspect-ratio: 16 / 9;
-  }
-  .highlight__grid .card.is-expanded .card__media--vertical {
-    aspect-ratio: 9 / 16;
-    width: min(100%, 260px);
-    margin-inline: auto;
-  }
-  .highlight__grid .card.is-expanded .card__title {
-    font-size: 0.9rem;
-  }
-
   /* Hero: single column */
   .hero__frame {
     padding-inline: 16px;
@@ -1238,27 +1245,20 @@ sup {
 
 /* =========================================================
    12. ANIMATION
+   Only transform + opacity are animated (no blur, no box-shadow
+   loops, no mask changes), so it stays on the GPU and runs smoothly
+   on phones and PCs alike.
    ========================================================= */
 :root {
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-/* Scroll-linked animations */
+/* Scroll progress bar */
 @keyframes scroll-progress {
   to {
     transform: scaleX(1);
   }
 }
-
-@keyframes watermark-drift {
-  from {
-    transform: translate3d(0, 36px, 0) scale(0.96);
-  }
-  to {
-    transform: translate3d(0, -36px, 0) scale(1.04);
-  }
-}
-
 @supports (animation-timeline: scroll()) {
   body::before {
     content: "";
@@ -1275,78 +1275,145 @@ sup {
   }
 }
 
-@supports (animation-timeline: view()) {
-  .section__watermark {
-    animation: watermark-drift linear both;
-    animation-timeline: view(block);
-    animation-range: entry 0% exit 100%;
-  }
-}
-
-/* Entrance animation keyframes */
+/* Keyframes */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(34px);
-    filter: blur(6px);
+    transform: translate3d(0, 26px, 0);
   }
 }
 @keyframes fadeDown {
   from {
     opacity: 0;
-    transform: translateY(-18px);
+    transform: translate3d(0, -18px, 0);
   }
 }
 @keyframes portraitIn {
   from {
     opacity: 0;
-    transform: translateY(60px) scale(0.96);
-    filter: blur(8px);
+    transform: translate3d(0, 40px, 0) scale(0.97);
   }
 }
 @keyframes popTilt {
   from {
     opacity: 0;
-    transform: translateY(24px) rotate(-14deg) scale(0.7);
+    transform: translate3d(0, 24px, 0) rotate(-14deg) scale(0.7);
   }
 }
 @keyframes bodyIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translate3d(0, 10px, 0);
+  }
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.85);
+  }
+}
+@keyframes slideInX {
+  from {
+    opacity: 0;
+    transform: translate3d(-26px, 0, 0);
+  }
+}
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0) scale(0.94);
+  }
+}
+@keyframes titleSlideL {
+  from {
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0);
+  }
+}
+@keyframes titleSlideR {
+  from {
+    opacity: 0;
+    transform: translate3d(40px, 0, 0);
+  }
+}
+@keyframes stageIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.97);
+  }
+}
+/* Expanding rings: scale + fade only */
+@keyframes ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(1.2, 1.6);
+    opacity: 0;
+  }
+}
+@keyframes dotRing {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(3);
+    opacity: 0;
   }
 }
 
 /* Hero entrance on page load */
 .nav {
-  animation: fadeDown 0.8s var(--ease) 0.1s backwards;
+  animation: fadeDown 0.7s var(--ease) 0.1s backwards;
 }
 .hero__first {
-  animation: rise 1s var(--ease) 0.25s backwards;
+  animation: rise 0.8s var(--ease) 0.2s backwards;
 }
 .hero__last {
-  animation: rise 1s var(--ease) 0.42s backwards;
+  animation: rise 0.8s var(--ease) 0.35s backwards;
 }
 .hero__portrait {
-  animation: portraitIn 1.2s var(--ease) 0.55s backwards;
+  animation: portraitIn 0.9s var(--ease) 0.45s backwards;
 }
 .hero__intro {
-  animation: rise 0.9s var(--ease) 0.8s backwards;
+  animation: rise 0.8s var(--ease) 0.65s backwards;
 }
 .hero__socials li {
-  animation: rise 0.8s var(--ease) backwards;
+  animation: rise 0.7s var(--ease) backwards;
 }
 .hero__socials li:nth-child(1) {
-  animation-delay: 0.9s;
+  animation-delay: 0.75s;
 }
 .hero__socials li:nth-child(2) {
-  animation-delay: 1s;
+  animation-delay: 0.83s;
 }
 .hero__socials li:nth-child(3) {
-  animation-delay: 1.1s;
+  animation-delay: 0.91s;
 }
 .hero__socials li:nth-child(4) {
-  animation-delay: 1.2s;
+  animation-delay: 0.99s;
+}
+
+/* Call-to-action buttons: a soft expanding ring behind them */
+.hero__intro .btn,
+.contact__card .btn {
+  position: relative;
+  isolation: isolate;
+}
+.hero__intro .btn::after,
+.contact__card .btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  border: 2px solid rgba(17, 17, 17, 0.45);
+  pointer-events: none;
+  animation: ring 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) 1.6s infinite;
 }
 
 /* Section reveal on scroll: JavaScript swaps .is-pending for .is-in */
@@ -1354,21 +1421,15 @@ sup {
   opacity: 0;
 }
 .is-in {
-  animation: rise 1s var(--ease) var(--d, 0s) backwards;
-}
-.timeline__row.is-in {
-  animation-name: rise;
-}
-.contact__card.is-in {
-  animation-duration: 1.2s;
+  animation: rise 0.8s var(--ease) var(--d, 0s) backwards;
 }
 
 /* Service accordion open-state animations */
 .accordion__item.is-open .accordion__preview {
-  animation: popTilt 0.7s var(--ease) 0.1s backwards;
+  animation: popTilt 0.6s var(--ease) 0.1s backwards;
 }
 .accordion__item.is-open .accordion__body p {
-  animation: bodyIn 0.5s var(--ease) 0.1s backwards;
+  animation: bodyIn 0.45s var(--ease) 0.1s backwards;
 }
 .accordion__item {
   transition:
@@ -1379,7 +1440,80 @@ sup {
 
 /* Highlight cards animate back in when the filter changes */
 .card.is-refresh {
-  animation: rise 0.7s var(--ease) var(--d, 0s) backwards;
+  animation: rise 0.6s var(--ease) var(--d, 0s) backwards;
+}
+
+/* Contact section: each piece eases in one after another */
+.contact__card .badge--status.is-in {
+  animation-name: popIn;
+}
+.contact__title.is-in {
+  animation-duration: 0.9s;
+}
+.contact__card .btn.is-in {
+  animation-name: popIn;
+  animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.contact__links li.is-in {
+  animation-name: popIn;
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* Video player (phones): opens below the Featured Content grid */
+.stage {
+  max-width: 880px;
+  margin: clamp(16px, 3vw, 28px) auto 0;
+  padding: 12px;
+  border-radius: 16px;
+  background: #0d0d0d;
+  color: #fff;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+}
+.stage.is-open {
+  animation: stageIn 0.45s var(--ease) both;
+}
+.stage__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.stage__title {
+  display: -webkit-box;
+  overflow: hidden;
+  font: 500 0.8rem/1.3 var(--font-head);
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.stage__close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1;
+}
+.stage__media {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  background: #000;
+}
+.stage[data-shape="vertical"] .stage__media {
+  width: min(100%, 300px);
+  aspect-ratio: 9 / 16;
+  margin-inline: auto;
+}
+.card.is-active .card__media {
+  box-shadow: 0 0 0 2px #111;
 }
 
 /* Reduced-motion overrides */
@@ -1397,70 +1531,16 @@ body {
 
 /* =========================================================
    13. MOBILE / TOUCH ANIMATION
-   Applies to phones, tablets and any touch-only device.
+   Phones, tablets and touch-only devices.
    ========================================================= */
-@keyframes floatPhoto {
-  0%,
-  100% {
-    transform: scale(1.05) translateY(0);
-  }
-  50% {
-    transform: scale(1.05) translateY(-7px);
-  }
-}
-@keyframes popIn {
-  from {
-    opacity: 0;
-    transform: translateY(18px) scale(0.8);
-  }
-}
-@keyframes slideInX {
-  from {
-    opacity: 0;
-    transform: translateX(-28px);
-  }
-}
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: translateY(22px) scale(0.92);
-  }
-}
-@keyframes ctaGlow {
-  0%,
-  100% {
-    box-shadow:
-      0 6px 16px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 0 0 0 rgba(17, 17, 17, 0.35);
-  }
-  50% {
-    box-shadow:
-      0 6px 16px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 0 0 9px rgba(17, 17, 17, 0);
-  }
-}
-@keyframes titleSlideL {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-}
-@keyframes titleSlideR {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-}
-
 @media (max-width: 960px), (hover: none) {
-  /* Bigger colour spotlight for fingers */
+  /* Bigger colour spotlight for fingers; keep vertical scrolling working */
   .hero__portrait {
     --spot: 92px;
+    touch-action: pan-y;
   }
 
-  /* Tap feedback: everything pressable squishes slightly */
+  /* Tap feedback */
   .btn:active,
   .pill:active,
   .filters__btn:active,
@@ -1468,71 +1548,40 @@ body {
     transform: scale(0.95);
     transition-duration: 0.1s;
   }
-  .card__cursor:active,
-  .card__tiktok-play:active {
+  .card__cursor:active {
     transform: translate(-50%, -50%) scale(0.88);
   }
-  .card__cursor,
-  .card__tiktok-play {
+  .card__cursor {
     opacity: 1;
   }
 
-  /* Hero: name slides in from both sides, photo gently floats */
+  /* Hero: name slides in from both sides, buttons pop in */
   .hero__first {
-    animation: titleSlideL 0.9s var(--ease) 0.25s backwards;
+    animation: titleSlideL 0.8s var(--ease) 0.2s backwards;
   }
   .hero__last {
-    animation: titleSlideR 0.9s var(--ease) 0.42s backwards;
-  }
-  .hero__portrait img {
-    animation: floatPhoto 6s ease-in-out 1.8s infinite;
-    will-change: transform;
-  }
-  .hero__portrait {
-    touch-action: pan-y;
+    animation: titleSlideR 0.8s var(--ease) 0.35s backwards;
   }
   .hero__socials li {
     animation-name: popIn;
-    animation-duration: 0.7s;
-    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .hero__intro .btn {
-    animation: ctaGlow 2.6s ease-in-out 2s infinite;
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
   }
 
-  /* Scroll reveals get a bit more personality on small screens */
+  /* Scroll reveals */
   .highlight__grid .card.is-in,
   .highlight__grid .card.is-refresh {
     animation-name: zoomIn;
-    animation-duration: 0.7s;
+    animation-duration: 0.6s;
   }
-  .timeline__row.is-in {
-    animation-name: slideInX;
-    animation-duration: 0.8s;
-  }
+  .timeline__row.is-in,
   .accordion__item.is-in {
     animation-name: slideInX;
-    animation-duration: 0.8s;
-  }
-  .contact__links li.is-in {
-    animation-name: popIn;
-    animation-duration: 0.6s;
-    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .contact__card .btn {
-    animation: ctaGlow 2.6s ease-in-out 1s infinite;
+    animation-duration: 0.7s;
   }
 
   /* Timeline rows: touch highlight instead of hover */
   .timeline__row:active {
     background: rgba(255, 255, 255, 0.06);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero__portrait img,
-  .hero__intro .btn,
-  .contact__card .btn {
-    animation: none !important;
   }
 }
