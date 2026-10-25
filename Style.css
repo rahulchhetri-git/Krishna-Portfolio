@@ -430,10 +430,14 @@ sup {
   justify-items: start;
 }
 .hero__role {
-  font: 600 1.1rem/1.2 var(--font-head);
+  font-family: var(--font-head);
+  font-size: clamp(1rem, calc(0.8rem + 0.55vw), 1.25rem);
+  font-weight: 600;
+  line-height: 1.2;
 }
 .hero__lead {
-  font-size: 0.8rem;
+  font-size: clamp(0.75rem, calc(0.65rem + 0.35vw), 0.9rem);
+  line-height: 1.55;
   color: var(--ink-soft);
 }
 
@@ -455,7 +459,7 @@ sup {
   .hero__intro,
   .hero__socials {
     bottom: calc(
-      clamp(20px, 3vw, 36px) + clamp(240px, 40vw, 500px) / 3
+      clamp(20px, 3vw, 36px) + clamp(240px, 40vw, 500px) / 3 - 10px
     );
   }
 }
@@ -988,7 +992,7 @@ sup {
 }
 
 /* ---------- 11. Responsive ---------- */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   /* Tablet and smaller layouts */
   .section__watermark {
     font-size: clamp(3rem, 11vw, 6rem);
@@ -1073,6 +1077,10 @@ sup {
     grid-template-columns: repeat(2, auto);
     justify-self: end;
   }
+  .hero__intro,
+  .hero__socials {
+    translate: 0 8px;
+  }
   .hero__socials .pill {
     justify-content: center;
   }
@@ -1120,7 +1128,7 @@ sup {
     align-items: center;
     gap: 0;
     line-height: 0.92;
-    font-size: clamp(2.8rem, 15.5vw, 6rem);
+    font-size: clamp(2.6rem, 12vw, 4.25rem);
   }
   .hero__portrait {
     width: clamp(220px, 68vw, 360px);
