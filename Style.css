@@ -44,7 +44,7 @@ img {
   --font-head: "Inter", system-ui, sans-serif;
   --font-body: "Manrope", system-ui, sans-serif;
   --font-display:
-    "Helvetica Neue", Helvetica, Arimo, Arial, "Liberation Sans", sans-serif;
+    "Arimo", "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
 
   --radius-sm: 6px;
   --radius: 10px;
@@ -298,19 +298,28 @@ sup {
 }
 
 .hero__frame {
+  --portrait-w: clamp(240px, 32vw, 460px);
+  --portrait-overlap: clamp(24px, 6vw, 90px);
+  --hero-pad-bottom: clamp(20px, 3vw, 36px);
   position: relative;
   overflow: hidden;
   max-width: 1280px;
-  min-height: clamp(560px, 50vw, 660px);
+  min-height: clamp(560px, 40vw + 180px, 820px);
   margin-inline: auto;
-  padding: clamp(16px, 2.4vw, 28px) clamp(20px, 3vw, 40px);
+  padding: clamp(16px, 2.4vw, 28px) clamp(20px, 3vw, 40px) 0;
   background: transparent;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    "nav nav nav"
+    "title title title"
+    "intro portrait socials";
   isolation: isolate;
 }
 
 .nav {
+  grid-area: nav;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -344,52 +353,66 @@ sup {
   transform: scaleX(1);
 }
 
+/* Name: same font file everywhere (Arimo from Google Fonts) so every
+   browser draws identical glyphs. The outline is a thick stroke painted
+   UNDER a white fill (paint-order), which hides the overlapping-contour
+   artefacts Chrome shows with transparent text + text-stroke. */
 .hero__title {
-  grid-row: 2;
+  grid-area: title;
   align-self: start;
-  margin-top: clamp(16px, 3vw, 40px);
+  margin-top: clamp(12px, 2.5vw, 36px);
   display: flex;
   justify-content: center;
   gap: 0.18em;
-  font: 700 clamp(2.4rem, 8vw, 7rem)/1 var(--font-display);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 8vw, 7rem);
+  line-height: 1;
   letter-spacing: 0.02em;
+  font-synthesis: none;
   white-space: nowrap;
   position: relative;
   z-index: 1;
 }
 .hero__first {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--ink);
+  color: var(--white);
+  -webkit-text-fill-color: var(--white);
+  -webkit-text-stroke: 4px var(--ink);
+  paint-order: stroke fill;
+  stroke-linejoin: round;
 }
 .hero__last {
   color: #1d1d1d;
 }
 
 .hero__portrait {
-  position: absolute;
+  grid-area: portrait;
+  position: relative;
   z-index: 2;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: clamp(240px, 40vw, 500px);
+  align-self: end;
+  justify-self: center;
+  width: var(--portrait-w);
   aspect-ratio: 3 / 4;
-  margin: 0;
+  margin: calc(-1 * var(--portrait-overlap)) 0 0;
+  overflow: hidden;
+  cursor: crosshair;
   -webkit-mask-image: linear-gradient(#000 82%, transparent);
   mask-image: linear-gradient(#000 82%, transparent);
-}
-@media (min-width: 901px) {
-  .hero__frame {
-    min-height: calc(
-      clamp(560px, 50vw, 660px) + clamp(240px, 40vw, 500px) / 3
-    );
-  }
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 .hero__portrait img {
+  display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
-  object-position: top;
+  object-position: center top;
   filter: grayscale(1) contrast(1.05);
+  -webkit-user-drag: none;
+  user-select: none;
 }
 /* Colour copy of the photo, revealed through a small circle that follows the cursor */
 .hero__portrait .hero__photo-color {
@@ -399,13 +422,13 @@ sup {
   opacity: 0;
   transition: opacity 0.35s ease;
   -webkit-mask-image: radial-gradient(
-    circle 64px at var(--mx, 50%) var(--my, 40%),
+    circle var(--spot, 64px) at var(--mx, 50%) var(--my, 40%),
     #000 0,
     #000 62%,
     transparent 100%
   );
   mask-image: radial-gradient(
-    circle 64px at var(--mx, 50%) var(--my, 40%),
+    circle var(--spot, 64px) at var(--mx, 50%) var(--my, 40%),
     #000 0,
     #000 62%,
     transparent 100%
@@ -415,16 +438,13 @@ sup {
 .hero__portrait.is-hover .hero__photo-color {
   opacity: 1;
 }
-.hero__portrait {
-  cursor: crosshair;
-}
 
 .hero__intro {
-  position: absolute;
+  grid-area: intro;
+  align-self: end;
   z-index: 3;
-  left: clamp(20px, 3vw, 40px);
-  bottom: clamp(20px, 3vw, 36px);
   max-width: 280px;
+  padding-bottom: var(--hero-pad-bottom);
   display: grid;
   gap: 12px;
   justify-items: start;
@@ -442,10 +462,12 @@ sup {
 }
 
 .hero__socials {
-  position: absolute;
+  grid-area: socials;
+  align-self: end;
+  justify-self: end;
   z-index: 3;
-  right: clamp(20px, 3vw, 40px);
-  bottom: clamp(20px, 3vw, 36px);
+  width: min(100%, 180px);
+  padding-bottom: var(--hero-pad-bottom);
   display: grid;
   gap: 8px;
   justify-items: stretch;
@@ -454,14 +476,6 @@ sup {
   width: 100%;
   border: 1px solid var(--line);
   box-shadow: none;
-}
-@media (min-width: 901px) {
-  .hero__intro,
-  .hero__socials {
-    bottom: calc(
-      clamp(20px, 3vw, 36px) + clamp(240px, 40vw, 500px) / 3 - 10px
-    );
-  }
 }
 
 /* ---------- 6. Highlights ---------- */
@@ -1028,9 +1042,10 @@ sup {
     gap: 8px clamp(12px, 3vw, 24px);
   }
   .hero__frame {
-    min-height: clamp(700px, 90vw, 820px);
+    min-height: 0;
+    padding-bottom: clamp(20px, 4vw, 32px);
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto auto minmax(280px, 1fr) auto;
+    grid-template-rows: auto auto auto auto;
     grid-template-areas:
       "nav nav"
       "title title"
@@ -1038,48 +1053,28 @@ sup {
       "intro socials";
     row-gap: clamp(12px, 2vw, 20px);
   }
-  .nav {
-    grid-area: nav;
-  }
   .hero__title {
-    grid-area: title;
     width: 100%;
     min-width: 0;
-    margin-top: clamp(12px, 2vw, 24px);
   }
   .hero__portrait {
-    position: relative;
-    grid-area: portrait;
-    left: auto;
-    bottom: auto;
     align-self: center;
     justify-self: center;
-    width: clamp(260px, 40vw, 360px);
-    transform: none;
-  }
-  .hero__frame .hero__portrait {
-    animation-name: rise;
-  }
-  .hero__intro {
-    position: relative;
-    grid-area: intro;
-    left: auto;
-    bottom: auto;
-    align-self: center;
-    max-width: none;
-  }
-  .hero__socials {
-    position: relative;
-    grid-area: socials;
-    right: auto;
-    bottom: auto;
-    align-self: center;
-    grid-template-columns: repeat(2, auto);
-    justify-self: end;
+    width: clamp(240px, 44vw, 360px);
+    margin: 0;
   }
   .hero__intro,
   .hero__socials {
-    translate: 0 8px;
+    align-self: center;
+    padding-bottom: 0;
+  }
+  .hero__intro {
+    max-width: none;
+  }
+  .hero__socials {
+    width: auto;
+    grid-template-columns: repeat(2, auto);
+    justify-self: end;
   }
   .hero__socials .pill {
     justify-content: center;
@@ -1092,14 +1087,16 @@ sup {
 @media (max-width: 640px) {
   /* Mobile layouts */
   .section__panel {
-    padding: clamp(20px, 5vw, 28px);
+    padding: clamp(20px, 5vw, 28px) 14px;
   }
   .highlight__toolbar {
     align-items: stretch;
+    margin-block: 20px 18px;
   }
   .highlight__toolbar .filters {
     justify-content: center;
     width: 100%;
+    gap: 18px;
   }
   .highlight__toolbar > .btn {
     justify-content: center;
@@ -1109,13 +1106,66 @@ sup {
   .section__watermark {
     font-size: clamp(2rem, 11vw, 4.5rem);
   }
+
+  /* Featured content: compact 2-column grid, like desktop */
   .highlight__grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 10px;
   }
+  .highlight__grid .card__media,
+  .highlight__grid .card__media--tiktok {
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+  }
+  .highlight__grid .card__media--vertical {
+    width: 100%;
+  }
+  .highlight__grid .card__cursor,
+  .highlight__grid .card__tiktok-play {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+  }
+  .highlight__grid .card__title {
+    min-height: 0;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+  .highlight__grid .tags {
+    gap: 4px;
+    margin-top: 6px;
+    padding-bottom: 4px;
+  }
+  .highlight__grid .tag {
+    padding: 0.3em 0.65em;
+    font-size: 0.58rem;
+  }
+  .highlight__grid .card__source {
+    padding: 0.3em 0;
+    font-size: 0.68rem;
+  }
+  /* A card that is playing grows to full width so the video is watchable */
+  .highlight__grid .card.is-expanded {
+    grid-column: 1 / -1;
+  }
+  .highlight__grid .card.is-expanded .card__media {
+    aspect-ratio: 16 / 9;
+  }
+  .highlight__grid .card.is-expanded .card__media--vertical {
+    aspect-ratio: 9 / 16;
+    width: min(100%, 260px);
+    margin-inline: auto;
+  }
+  .highlight__grid .card.is-expanded .card__title {
+    font-size: 0.9rem;
+  }
+
+  /* Hero: single column */
   .hero__frame {
-    min-height: clamp(740px, 200vw, 880px);
+    padding-inline: 16px;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(220px, 1fr) auto auto;
+    grid-template-rows: auto auto auto auto auto;
     grid-template-areas:
       "nav"
       "title"
@@ -1123,20 +1173,28 @@ sup {
       "intro"
       "socials";
   }
+  .nav > .badge--status {
+    font-size: 0.66rem;
+    padding: 0.5em 0.8em;
+  }
   .hero__title {
     flex-direction: column;
     align-items: center;
     gap: 0;
-    line-height: 0.92;
-    font-size: clamp(2.6rem, 12vw, 4.25rem);
+    line-height: 0.95;
+    font-size: clamp(2.6rem, 14vw, 4.25rem);
+  }
+  .hero__first {
+    -webkit-text-stroke-width: 3px;
   }
   .hero__portrait {
-    width: clamp(220px, 68vw, 360px);
+    width: clamp(220px, 68vw, 340px);
     max-width: 100%;
   }
   .hero__intro {
     width: 100%;
-    max-width: none;
+    justify-items: center;
+    text-align: center;
   }
   .hero__socials {
     width: 100%;
@@ -1242,7 +1300,7 @@ sup {
 @keyframes portraitIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(60px) scale(0.96);
+    transform: translateY(60px) scale(0.96);
     filter: blur(8px);
   }
 }
@@ -1291,24 +1349,6 @@ sup {
   animation-delay: 1.2s;
 }
 
-/* Hero fade-out on scroll (--p is set by JavaScript, from 0 to 1) */
-.hero__frame {
-  scale: calc(1 - var(--p, 0) * 0.05);
-  opacity: calc(1 - var(--p, 0) * 0.7);
-}
-.hero__title {
-  translate: 0 calc(var(--p, 0) * -70px);
-}
-.hero__portrait {
-  translate: 0 calc(var(--p, 0) * 50px);
-  opacity: calc(1 - var(--p, 0) * 0.9);
-}
-.nav,
-.hero__intro,
-.hero__socials {
-  opacity: calc(1 - var(--p, 0) * 1.8);
-}
-
 /* Section reveal on scroll: JavaScript swaps .is-pending for .is-in */
 .is-pending {
   opacity: 0;
@@ -1347,20 +1387,152 @@ sup {
   .is-pending {
     opacity: 1;
   }
-  .hero__frame,
-  .hero__title,
-  .hero__portrait,
-  .nav,
-  .hero__intro,
-  .hero__socials {
-    scale: none;
-    translate: none;
-    opacity: 1;
-  }
 }
 
 /* Safe-area spacing */
 body {
   padding-left: max(0px, env(safe-area-inset-left, 0px));
   padding-right: max(0px, env(safe-area-inset-right, 0px));
+}
+
+/* =========================================================
+   13. MOBILE / TOUCH ANIMATION
+   Applies to phones, tablets and any touch-only device.
+   ========================================================= */
+@keyframes floatPhoto {
+  0%,
+  100% {
+    transform: scale(1.05) translateY(0);
+  }
+  50% {
+    transform: scale(1.05) translateY(-7px);
+  }
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.8);
+  }
+}
+@keyframes slideInX {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+}
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.92);
+  }
+}
+@keyframes ctaGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 0 0 0 rgba(17, 17, 17, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 0 0 9px rgba(17, 17, 17, 0);
+  }
+}
+@keyframes titleSlideL {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+@keyframes titleSlideR {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+@media (max-width: 960px), (hover: none) {
+  /* Bigger colour spotlight for fingers */
+  .hero__portrait {
+    --spot: 92px;
+  }
+
+  /* Tap feedback: everything pressable squishes slightly */
+  .btn:active,
+  .pill:active,
+  .filters__btn:active,
+  .accordion__head:active {
+    transform: scale(0.95);
+    transition-duration: 0.1s;
+  }
+  .card__cursor:active,
+  .card__tiktok-play:active {
+    transform: translate(-50%, -50%) scale(0.88);
+  }
+  .card__cursor,
+  .card__tiktok-play {
+    opacity: 1;
+  }
+
+  /* Hero: name slides in from both sides, photo gently floats */
+  .hero__first {
+    animation: titleSlideL 0.9s var(--ease) 0.25s backwards;
+  }
+  .hero__last {
+    animation: titleSlideR 0.9s var(--ease) 0.42s backwards;
+  }
+  .hero__portrait img {
+    animation: floatPhoto 6s ease-in-out 1.8s infinite;
+    will-change: transform;
+  }
+  .hero__portrait {
+    touch-action: pan-y;
+  }
+  .hero__socials li {
+    animation-name: popIn;
+    animation-duration: 0.7s;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .hero__intro .btn {
+    animation: ctaGlow 2.6s ease-in-out 2s infinite;
+  }
+
+  /* Scroll reveals get a bit more personality on small screens */
+  .highlight__grid .card.is-in,
+  .highlight__grid .card.is-refresh {
+    animation-name: zoomIn;
+    animation-duration: 0.7s;
+  }
+  .timeline__row.is-in {
+    animation-name: slideInX;
+    animation-duration: 0.8s;
+  }
+  .accordion__item.is-in {
+    animation-name: slideInX;
+    animation-duration: 0.8s;
+  }
+  .contact__links li.is-in {
+    animation-name: popIn;
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .contact__card .btn {
+    animation: ctaGlow 2.6s ease-in-out 1s infinite;
+  }
+
+  /* Timeline rows: touch highlight instead of hover */
+  .timeline__row:active {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__portrait img,
+  .hero__intro .btn,
+  .contact__card .btn {
+    animation: none !important;
+  }
 }

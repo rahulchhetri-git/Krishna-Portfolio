@@ -70,6 +70,7 @@
           button.addEventListener("click", async () => {
             const media = button.closest(".card__media");
             if (!media) return;
+            button.closest(".card")?.classList.add("is-expanded");
 
             if (button.dataset.provider === "kick") {
               const video = document.createElement("video");
@@ -194,6 +195,7 @@
             const frame = media?.querySelector("iframe");
             if (!frame) return;
 
+            button.closest(".card")?.classList.add("is-expanded");
             media.classList.add("is-playing");
             button.hidden = true;
             button.dataset.playRequested = "true";
@@ -265,31 +267,6 @@
           "(prefers-reduced-motion: reduce)",
         ).matches;
 
-        // ---------- Hero: fade out as you scroll past ----------
-        const hero = document.querySelector(".hero");
-        if (hero && !reduceMotion) {
-          let ticking = false;
-          const update = () => {
-            const p = Math.min(
-              Math.max(window.scrollY / (hero.offsetHeight * 1.3), 0),
-              1,
-            );
-            hero.style.setProperty("--p", p.toFixed(3));
-            ticking = false;
-          };
-          window.addEventListener(
-            "scroll",
-            () => {
-              if (!ticking) {
-                ticking = true;
-                requestAnimationFrame(update);
-              }
-            },
-            { passive: true },
-          );
-          update();
-        }
-
         // ---------- Sections: reveal on scroll ----------
         // Each entry is [selector, stagger in seconds, items per row].
         const reveals = [
@@ -328,19 +305,83 @@
         }
 
         // ---------- Hero: portrait colour spotlight ----------
+        // Mouse: follows the cursor on hover.
+        // Touch: follows your finger when you touch/drag on the photo, and
+        // sweeps around on its own while idle so phone users see it too.
         const portrait = document.querySelector(".hero__portrait");
         if (portrait) {
-          portrait.addEventListener("pointerenter", () =>
-            portrait.classList.add("is-hover"),
-          );
-          portrait.addEventListener("pointerleave", () =>
-            portrait.classList.remove("is-hover"),
-          );
-          portrait.addEventListener("pointermove", (e) => {
+          const touchDevice = window.matchMedia("(hover: none)").matches;
+          let sweeping = false;
+          let rafId = 0;
+          let idleTimer = 0;
+          let inView = true;
+
+          const place = (x, y) => {
+            portrait.style.setProperty("--mx", `${x}px`);
+            portrait.style.setProperty("--my", `${y}px`);
+          };
+          const placeFromEvent = (e) => {
             const r = portrait.getBoundingClientRect();
-            portrait.style.setProperty("--mx", `${e.clientX - r.left}px`);
-            portrait.style.setProperty("--my", `${e.clientY - r.top}px`);
+            place(e.clientX - r.left, e.clientY - r.top);
+          };
+
+          const sweep = (t) => {
+            if (!sweeping) return;
+            const r = portrait.getBoundingClientRect();
+            place(
+              r.width * (0.5 + 0.3 * Math.sin(t / 1300)),
+              r.height * (0.4 + 0.22 * Math.sin(t / 1900 + 1)),
+            );
+            rafId = requestAnimationFrame(sweep);
+          };
+          const startSweep = () => {
+            if (!touchDevice || reduceMotion || sweeping || !inView) return;
+            sweeping = true;
+            portrait.classList.add("is-hover");
+            rafId = requestAnimationFrame(sweep);
+          };
+          const stopSweep = () => {
+            sweeping = false;
+            cancelAnimationFrame(rafId);
+          };
+
+          portrait.addEventListener("pointerenter", (e) => {
+            if (e.pointerType === "mouse") portrait.classList.add("is-hover");
           });
+          portrait.addEventListener("pointerleave", (e) => {
+            if (e.pointerType === "mouse") portrait.classList.remove("is-hover");
+          });
+          portrait.addEventListener("pointerdown", (e) => {
+            if (e.pointerType === "mouse") return;
+            stopSweep();
+            window.clearTimeout(idleTimer);
+            portrait.classList.add("is-hover");
+            placeFromEvent(e);
+          });
+          portrait.addEventListener("pointermove", (e) => {
+            if (sweeping && e.pointerType !== "mouse") return;
+            placeFromEvent(e);
+          });
+          const release = (e) => {
+            if (e.pointerType === "mouse") return;
+            window.clearTimeout(idleTimer);
+            idleTimer = window.setTimeout(startSweep, 2500);
+          };
+          portrait.addEventListener("pointerup", release);
+          portrait.addEventListener("pointercancel", release);
+
+          if (touchDevice && "IntersectionObserver" in window) {
+            new IntersectionObserver(([entry]) => {
+              inView = entry.isIntersecting;
+              if (inView) startSweep();
+              else {
+                stopSweep();
+                portrait.classList.remove("is-hover");
+              }
+            }).observe(portrait);
+          } else {
+            startSweep();
+          }
         }
 
         // ---------- Milestones: preview follows the cursor ----------
