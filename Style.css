@@ -220,19 +220,34 @@ sup {
   box-shadow: var(--shadow-pill);
 }
 .badge__dot {
+  position: relative;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+}
+/* Same pulsing ring as before, drawn with transform/opacity (compositor only)
+   instead of animating box-shadow, which repainted every frame. */
+.badge__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.6);
   animation: pulse 2s infinite;
 }
 @keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
   70% {
-    box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
+    transform: scale(2.75);
+    opacity: 0;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    transform: scale(1);
+    opacity: 0;
   }
 }
 
@@ -259,11 +274,12 @@ sup {
 
 .section__watermark {
   position: absolute;
-  top: 18px;
+  top: clamp(14px, 3vw, 28px);
   left: 0;
   right: 0;
   text-align: center;
-  font: 700 clamp(4rem, 14vw, 10rem)/1 var(--font-head);
+  /* line-height > 1 keeps the tops of the capitals inside the box */
+  font: 700 clamp(4rem, 14vw, 10rem)/1.18 var(--font-head);
   letter-spacing: 0.02em;
   color: rgba(0, 0, 0, 0.045);
   pointer-events: none;
@@ -308,6 +324,7 @@ sup {
   display: grid;
   grid-template-rows: auto 1fr auto;
   isolation: isolate;
+  --portrait-w: clamp(240px, 40vw, 500px);
 }
 
 .nav {
@@ -356,10 +373,22 @@ sup {
   white-space: nowrap;
   position: relative;
   z-index: 1;
+  /* Consistent glyph rendering across Chrome / Edge / Firefox */
+  font-synthesis: none;
+  font-kerning: normal;
+  font-variant-ligatures: none;
+  text-rendering: geometricPrecision;
 }
+/* Outlined name.
+   Chrome strokes every overlapping contour of the glyph (variable / merged
+   fonts), which shows up as "cubes" inside the letters. Painting the stroke
+   first and then filling the glyph with the page colour hides those inner
+   contours while keeping the same outlined look. */
 .hero__first {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--ink);
+  color: var(--hero-bg, #fff);
+  -webkit-text-stroke: 3.5px var(--ink);
+  paint-order: stroke fill;
+  stroke-linejoin: round;
 }
 .hero__last {
   color: #1d1d1d;
@@ -371,20 +400,27 @@ sup {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  width: clamp(240px, 40vw, 500px);
+  width: var(--portrait-w);
   aspect-ratio: 3 / 4;
   margin: 0;
   -webkit-mask-image: linear-gradient(#000 82%, transparent);
   mask-image: linear-gradient(#000 82%, transparent);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
-@media (min-width: 901px) {
+@media (min-width: 961px) {
   .hero__frame {
-    min-height: calc(
-      clamp(560px, 50vw, 660px) + clamp(240px, 40vw, 500px) / 3
-    );
+    min-height: calc(clamp(560px, 50vw, 660px) + var(--portrait-w) / 3);
   }
 }
+/* Images fill the figure absolutely so the size never depends on how a
+   browser resolves percentage heights against aspect-ratio boxes. */
 .hero__portrait img {
+  position: absolute;
+  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -455,11 +491,17 @@ sup {
   border: 1px solid var(--line);
   box-shadow: none;
 }
-@media (min-width: 901px) {
+@media (min-width: 961px) {
   .hero__intro,
   .hero__socials {
-    bottom: calc(
-      clamp(20px, 3vw, 36px) + clamp(240px, 40vw, 500px) / 3 - 50px
+    bottom: calc(clamp(20px, 3vw, 36px) + var(--portrait-w) / 3 - 50px);
+  }
+  /* Keep the copy beside the portrait, never on top of it */
+  .hero__intro {
+    max-width: clamp(
+      170px,
+      calc((100% - var(--portrait-w)) / 2 - clamp(20px, 3vw, 40px) - 8px),
+      280px
     );
   }
 }
@@ -924,6 +966,8 @@ sup {
 .timeline__preview {
   position: absolute;
   left: 36%;
+  /* --tx is set by JavaScript; moving via translate avoids layout work */
+  translate: var(--tx, 0px) 0;
   top: 50%;
   width: clamp(110px, 14vw, 160px);
   border-radius: 6px;
@@ -1057,8 +1101,10 @@ sup {
     width: clamp(260px, 40vw, 360px);
     transform: none;
   }
+  /* No translateX(-50%) here, and no blur on the masked figure (blur +
+     mask animations drop frames / fail to paint on mobile GPUs). */
   .hero__frame .hero__portrait {
-    animation-name: rise;
+    animation-name: portraitRise;
   }
   .hero__intro {
     position: relative;
@@ -1109,8 +1155,40 @@ sup {
   .section__watermark {
     font-size: clamp(2rem, 11vw, 4.5rem);
   }
+  /* Compact featured content: swipeable row of cards instead of a tall stack */
   .highlight__grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(82%, 300px);
+    gap: 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * clamp(20px, 5vw, 28px));
+    padding-inline: clamp(20px, 5vw, 28px);
+    scroll-padding-inline: clamp(20px, 5vw, 28px);
+    padding-bottom: 6px;
+  }
+  .highlight__grid::-webkit-scrollbar {
+    display: none;
+  }
+  .highlight__grid .card {
+    scroll-snap-align: start;
+  }
+  .highlight__grid .card__media {
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+  }
+  .highlight__grid .card__title {
+    min-height: 0;
+    margin-top: 12px;
+    font-size: 0.9rem;
+  }
+  .highlight__grid .tags {
+    margin-top: 6px;
+    padding-bottom: 4px;
   }
   .hero__frame {
     min-height: clamp(740px, 200vw, 880px);
@@ -1192,12 +1270,14 @@ sup {
   }
 }
 
+/* Drift is measured in em so it scales with the text and can never push the
+   letters above the panel edge on small screens. */
 @keyframes watermark-drift {
   from {
-    transform: translate3d(0, 36px, 0) scale(0.96);
+    transform: translate3d(0, 0.2em, 0) scale(0.96);
   }
   to {
-    transform: translate3d(0, -36px, 0) scale(1.04);
+    transform: translate3d(0, -0.08em, 0) scale(1.04);
   }
 }
 
@@ -1244,6 +1324,12 @@ sup {
     opacity: 0;
     transform: translateX(-50%) translateY(60px) scale(0.96);
     filter: blur(8px);
+  }
+}
+@keyframes portraitRise {
+  from {
+    opacity: 0;
+    transform: translateY(48px) scale(0.96);
   }
 }
 @keyframes popTilt {
@@ -1309,18 +1395,70 @@ sup {
   opacity: calc(1 - var(--p, 0) * 1.8);
 }
 
-/* Section reveal on scroll: JavaScript swaps .is-pending for .is-in */
-.is-pending {
+/* Hero entrance replays whenever the hero comes back into view.
+   JavaScript toggles .is-away while the hero is fully off screen; removing it
+   restarts every entrance animation above. */
+.hero.is-away .nav,
+.hero.is-away .hero__first,
+.hero.is-away .hero__last,
+.hero.is-away .hero__portrait,
+.hero.is-away .hero__intro,
+.hero.is-away .hero__socials li {
+  animation: none;
+}
+
+/* Section reveal on scroll (reversible).
+   JavaScript sets data-rv to "below" (waiting under the viewport), "in"
+   (visible) or "above" (scrolled past). Same rise + blur + fade as the old
+   one-shot keyframe, but as a transition so it plays in both directions.
+   The tripled class beats the per-component transition rules. */
+.rv.rv.rv {
+  transition:
+    opacity 0.7s var(--ease),
+    translate 0.9s var(--ease),
+    filter 0.7s var(--ease);
+  transition-delay: 0s;
+}
+.rv[data-rv="below"] {
   opacity: 0;
+  translate: 0 34px;
+  filter: blur(6px);
+  will-change: translate, opacity;
 }
-.is-in {
-  animation: rise 1s var(--ease) var(--d, 0s) backwards;
+.rv[data-rv="above"] {
+  opacity: 0;
+  translate: 0 -24px;
+  filter: blur(6px);
+  will-change: translate, opacity;
 }
-.timeline__row.is-in {
-  animation-name: rise;
+.rv[data-rv="in"] {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+  transition-delay: var(--d, 0s);
 }
-.contact__card.is-in {
-  animation-duration: 1.2s;
+/* Keep the accordion's own open/close background transition alongside the reveal */
+.accordion__item.rv.rv.rv {
+  transition:
+    opacity 0.7s var(--ease),
+    translate 0.9s var(--ease),
+    filter 0.7s var(--ease),
+    background 0.4s var(--ease),
+    color 0.4s var(--ease),
+    border-radius 0.4s;
+}
+.timeline__row.rv.rv.rv {
+  transition-duration: 0.8s, 1s, 0.8s;
+}
+.contact__card.rv.rv.rv {
+  transition-duration: 0.9s, 1.2s, 0.9s;
+}
+/* Blur is the costly part on phones: keep the rise + fade only */
+@media (max-width: 640px), (pointer: coarse) {
+  .rv[data-rv="below"],
+  .rv[data-rv="above"] {
+    filter: none;
+  }
 }
 
 /* Service accordion open-state animations */
@@ -1344,8 +1482,14 @@ sup {
 
 /* Reduced-motion overrides */
 @media (prefers-reduced-motion: reduce) {
-  .is-pending {
+  html {
+    scroll-behavior: auto;
+  }
+  .rv,
+  .rv[data-rv] {
     opacity: 1;
+    translate: none;
+    filter: none;
   }
   .hero__frame,
   .hero__title,
@@ -1356,6 +1500,70 @@ sup {
     scale: none;
     translate: none;
     opacity: 1;
+  }
+}
+
+/* =========================================================
+   13. COMPLEMENTARY EFFECTS (additive, nothing above is replaced)
+   ========================================================= */
+
+/* Collaboration section: oversized background word, same treatment as the
+   other sections (it drifts via the shared watermark-drift animation) */
+.contact {
+  position: relative;
+  overflow: hidden;
+}
+.contact .section__watermark {
+  top: clamp(8px, 2vw, 24px);
+  color: rgba(0, 0, 0, 0.045);
+}
+.contact__card,
+.contact__links {
+  position: relative;
+  z-index: 1;
+}
+
+/* Buttons and pills: tactile press + icon nudge on mouse and touch */
+.btn:active {
+  transform: translateY(0) scale(0.97);
+}
+.pill .icon {
+  transition: transform 0.3s var(--ease);
+}
+.pill:hover .icon,
+.pill:focus-visible .icon,
+.pill:active .icon {
+  transform: scale(1.15) rotate(-6deg);
+}
+.pill:active {
+  transform: translateY(0) scale(0.97);
+}
+.btn--dark:hover {
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+/* Cards respond to touch the way they respond to hover */
+.card__link:active .card__cursor {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* Touch targets */
+@media (pointer: coarse) {
+  .filters__btn {
+    min-height: 44px;
+    padding-inline: 4px;
+  }
+  .nav__links a {
+    padding: 10px 2px;
+  }
+  .pill {
+    padding-block: 0.85em;
+  }
+  .accordion__head {
+    min-height: 44px;
   }
 }
 
