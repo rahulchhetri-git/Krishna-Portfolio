@@ -44,7 +44,7 @@ img {
   --font-head: "Inter", system-ui, sans-serif;
   --font-body: "Manrope", system-ui, sans-serif;
   --font-display:
-    "Arimo", "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+    "Helvetica Neue", Helvetica, Arimo, Arial, "Liberation Sans", sans-serif;
 
   --radius-sm: 6px;
   --radius: 10px;
@@ -220,19 +220,20 @@ sup {
   box-shadow: var(--shadow-pill);
 }
 .badge__dot {
-  position: relative;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--green);
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+  animation: pulse 2s infinite;
 }
-.badge__dot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--green);
-  animation: dotRing 2s ease-out infinite;
+@keyframes pulse {
+  70% {
+    box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
 }
 
 /* ---------- Shared section layout ---------- */
@@ -297,28 +298,19 @@ sup {
 }
 
 .hero__frame {
-  --portrait-w: clamp(240px, 32vw, 460px);
-  --portrait-overlap: clamp(24px, 6vw, 90px);
-  --hero-pad-bottom: clamp(20px, 3vw, 36px);
   position: relative;
   overflow: hidden;
   max-width: 1280px;
-  min-height: clamp(560px, 40vw + 180px, 820px);
+  min-height: clamp(560px, 50vw, 660px);
   margin-inline: auto;
-  padding: clamp(16px, 2.4vw, 28px) clamp(20px, 3vw, 40px) 0;
+  padding: clamp(16px, 2.4vw, 28px) clamp(20px, 3vw, 40px);
   background: transparent;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  grid-template-rows: auto auto 1fr;
-  grid-template-areas:
-    "nav nav nav"
-    "title title title"
-    "intro portrait socials";
+  grid-template-rows: auto 1fr auto;
   isolation: isolate;
 }
 
 .nav {
-  grid-area: nav;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -352,105 +344,87 @@ sup {
   transform: scaleX(1);
 }
 
-/* Name: same font file everywhere (Arimo from Google Fonts) so every
-   browser draws identical glyphs. The outline is a thick stroke painted
-   UNDER a white fill (paint-order), which hides the overlapping-contour
-   artefacts Chrome shows with transparent text + text-stroke. */
 .hero__title {
-  grid-area: title;
+  grid-row: 2;
   align-self: start;
-  margin-top: clamp(12px, 2.5vw, 36px);
+  margin-top: clamp(16px, 3vw, 40px);
   display: flex;
   justify-content: center;
   gap: 0.18em;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(2.4rem, 8vw, 7rem);
-  line-height: 1;
+  font: 700 clamp(2.4rem, 8vw, 7rem)/1 var(--font-display);
   letter-spacing: 0.02em;
-  font-synthesis: none;
   white-space: nowrap;
   position: relative;
   z-index: 1;
 }
 .hero__first {
-  color: var(--white);
-  -webkit-text-fill-color: var(--white);
-  -webkit-text-stroke: 4px var(--ink);
-  paint-order: stroke fill;
-  stroke-linejoin: round;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
 }
 .hero__last {
   color: #1d1d1d;
 }
 
 .hero__portrait {
-  grid-area: portrait;
-  position: relative;
+  position: absolute;
   z-index: 2;
-  align-self: end;
-  justify-self: center;
-  width: var(--portrait-w);
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: clamp(240px, 40vw, 500px);
   aspect-ratio: 3 / 4;
-  margin: calc(-1 * var(--portrait-overlap)) 0 0;
-  overflow: hidden;
-  cursor: crosshair;
+  margin: 0;
   -webkit-mask-image: linear-gradient(#000 82%, transparent);
   mask-image: linear-gradient(#000 82%, transparent);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+}
+@media (min-width: 901px) {
+  .hero__frame {
+    min-height: calc(
+      clamp(560px, 50vw, 660px) + clamp(240px, 40vw, 500px) / 3
+    );
+  }
 }
 .hero__portrait img {
-  display: block;
   width: 100%;
   height: 100%;
-  max-width: none;
   object-fit: cover;
-  object-position: center top;
+  object-position: top;
   filter: grayscale(1) contrast(1.05);
-  -webkit-user-drag: none;
-  user-select: none;
 }
-/* Colour spotlight: a small round window onto a colour copy of the photo.
-   JavaScript moves it with transforms only (GPU), so it never lags. */
-.hero__spot {
+/* Colour copy of the photo, revealed through a small circle that follows the cursor */
+.hero__portrait .hero__photo-color {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: calc(var(--spot, 64px) * 2);
-  height: calc(var(--spot, 64px) * 2);
-  overflow: hidden;
+  inset: 0;
+  filter: none;
   opacity: 0;
-  transform: translate3d(-999px, -999px, 0);
   transition: opacity 0.35s ease;
-  pointer-events: none;
-  will-change: transform;
   -webkit-mask-image: radial-gradient(
-    circle closest-side,
+    circle 64px at var(--mx, 50%) var(--my, 40%),
+    #000 0,
     #000 62%,
     transparent 100%
   );
-  mask-image: radial-gradient(circle closest-side, #000 62%, transparent 100%);
+  mask-image: radial-gradient(
+    circle 64px at var(--mx, 50%) var(--my, 40%),
+    #000 0,
+    #000 62%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
-.hero__portrait .hero__spot img {
-  position: absolute;
-  left: 0;
-  top: 0;
-  filter: none;
-  will-change: transform;
-}
-.hero__portrait.is-hover .hero__spot {
+.hero__portrait.is-hover .hero__photo-color {
   opacity: 1;
+}
+.hero__portrait {
+  cursor: crosshair;
 }
 
 .hero__intro {
-  grid-area: intro;
-  align-self: end;
+  position: absolute;
   z-index: 3;
+  left: clamp(20px, 3vw, 40px);
+  bottom: clamp(20px, 3vw, 36px);
   max-width: 280px;
-  padding-bottom: var(--hero-pad-bottom);
   display: grid;
   gap: 12px;
   justify-items: start;
@@ -468,12 +442,10 @@ sup {
 }
 
 .hero__socials {
-  grid-area: socials;
-  align-self: end;
-  justify-self: end;
+  position: absolute;
   z-index: 3;
-  width: min(100%, 180px);
-  padding-bottom: var(--hero-pad-bottom);
+  right: clamp(20px, 3vw, 40px);
+  bottom: clamp(20px, 3vw, 36px);
   display: grid;
   gap: 8px;
   justify-items: stretch;
@@ -482,6 +454,14 @@ sup {
   width: 100%;
   border: 1px solid var(--line);
   box-shadow: none;
+}
+@media (min-width: 901px) {
+  .hero__intro,
+  .hero__socials {
+    bottom: calc(
+      clamp(20px, 3vw, 36px) + clamp(240px, 40vw, 500px) / 3 - 50px
+    );
+  }
 }
 
 /* ---------- 6. Highlights ---------- */
@@ -664,7 +644,7 @@ sup {
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.65));
   cursor: pointer;
 }
 .card__link:hover .card__cursor {
@@ -690,7 +670,7 @@ sup {
   font-size: 1.8rem;
   transform: translate(-50%, -50%) scale(0.9);
   opacity: 1;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.65));
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
@@ -704,16 +684,14 @@ sup {
   outline: 2px solid #fff;
   outline-offset: 4px;
 }
-.card__media iframe,
-.stage__media iframe {
+.card__media iframe {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
 }
-.card__media video,
-.stage__media video {
+.card__media video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -945,11 +923,11 @@ sup {
 /* Hover preview floats next to the cursor row */
 .timeline__preview {
   position: absolute;
-  left: 0;
+  left: 36%;
   top: 50%;
   width: clamp(110px, 14vw, 160px);
   border-radius: 6px;
-  transform: translate3d(var(--px, 260px), -65%, 0) rotate(-3deg) scale(0.85);
+  transform: translateY(-65%) rotate(-3deg) scale(0.85);
   opacity: 0;
   pointer-events: none;
   transition:
@@ -959,7 +937,7 @@ sup {
 }
 .timeline__row:hover .timeline__preview {
   opacity: 1;
-  transform: translate3d(var(--px, 260px), -65%, 0) rotate(-3deg) scale(1);
+  transform: translateY(-65%) rotate(-3deg) scale(1);
 }
 .timeline__row:hover .timeline__company {
   text-decoration: underline;
@@ -1050,10 +1028,9 @@ sup {
     gap: 8px clamp(12px, 3vw, 24px);
   }
   .hero__frame {
-    min-height: 0;
-    padding-bottom: clamp(20px, 4vw, 32px);
+    min-height: clamp(700px, 90vw, 820px);
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto minmax(280px, 1fr) auto;
     grid-template-areas:
       "nav nav"
       "title title"
@@ -1061,28 +1038,48 @@ sup {
       "intro socials";
     row-gap: clamp(12px, 2vw, 20px);
   }
+  .nav {
+    grid-area: nav;
+  }
   .hero__title {
+    grid-area: title;
     width: 100%;
     min-width: 0;
+    margin-top: clamp(12px, 2vw, 24px);
   }
   .hero__portrait {
+    position: relative;
+    grid-area: portrait;
+    left: auto;
+    bottom: auto;
     align-self: center;
     justify-self: center;
-    width: clamp(240px, 44vw, 360px);
-    margin: 0;
+    width: clamp(260px, 40vw, 360px);
+    transform: none;
   }
-  .hero__intro,
-  .hero__socials {
-    align-self: center;
-    padding-bottom: 0;
+  .hero__frame .hero__portrait {
+    animation-name: rise;
   }
   .hero__intro {
+    position: relative;
+    grid-area: intro;
+    left: auto;
+    bottom: auto;
+    align-self: center;
     max-width: none;
   }
   .hero__socials {
-    width: auto;
+    position: relative;
+    grid-area: socials;
+    right: auto;
+    bottom: auto;
+    align-self: center;
     grid-template-columns: repeat(2, auto);
     justify-self: end;
+  }
+  .hero__intro,
+  .hero__socials {
+    translate: 0 8px;
   }
   .hero__socials .pill {
     justify-content: center;
@@ -1095,84 +1092,30 @@ sup {
 @media (max-width: 640px) {
   /* Mobile layouts */
   .section__panel {
-    padding: clamp(20px, 5vw, 28px) 14px;
+    padding: clamp(20px, 5vw, 28px);
   }
   .highlight__toolbar {
     align-items: stretch;
-    margin-block: 20px 18px;
   }
   .highlight__toolbar .filters {
     justify-content: center;
     width: 100%;
-    gap: 18px;
   }
   .highlight__toolbar > .btn {
     justify-content: center;
     align-self: center;
     margin-inline: auto;
   }
-  /* Background word sits ABOVE the title in normal flow, so it can never
-     be clipped by the section edge or collide with the heading. */
   .section__watermark {
-    position: static;
-    display: block;
-    margin: 0 0 -0.3em;
-    font-size: clamp(2.2rem, 13vw, 4rem);
-    line-height: 1;
-    letter-spacing: 0;
+    font-size: clamp(2rem, 11vw, 4.5rem);
   }
-  .milestone .section__watermark {
-    font-size: clamp(1.8rem, 10vw, 3.2rem);
-  }
-  /* Service: no extra top gap, so its heading overlaps the background word
-     exactly like Featured Content and Milestones do. */
-  .service__inner {
-    padding-top: 0;
-  }
-
-  /* Featured content: compact 2-column grid, like desktop */
   .highlight__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px 10px;
-  }
-  .highlight__grid .card__media,
-  .highlight__grid .card__media--tiktok {
-    aspect-ratio: 4 / 3;
-    border-radius: 10px;
-  }
-  .highlight__grid .card__media--vertical {
-    width: 100%;
-  }
-  .highlight__grid .card__cursor,
-  .highlight__grid .card__tiktok-play {
-    width: 38px;
-    height: 38px;
-    font-size: 1.1rem;
-  }
-  .highlight__grid .card__title {
-    min-height: 0;
-    margin-top: 8px;
-    font-size: 0.78rem;
-    line-height: 1.3;
-  }
-  .highlight__grid .tags {
-    gap: 4px;
-    margin-top: 6px;
-    padding-bottom: 4px;
-  }
-  .highlight__grid .tag {
-    padding: 0.3em 0.65em;
-    font-size: 0.58rem;
-  }
-  .highlight__grid .card__source {
-    padding: 0.3em 0;
-    font-size: 0.68rem;
-  }
-  /* Hero: single column */
-  .hero__frame {
-    padding-inline: 16px;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto auto auto auto;
+  }
+  .hero__frame {
+    min-height: clamp(740px, 200vw, 880px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(220px, 1fr) auto auto;
     grid-template-areas:
       "nav"
       "title"
@@ -1180,28 +1123,20 @@ sup {
       "intro"
       "socials";
   }
-  .nav > .badge--status {
-    font-size: 0.66rem;
-    padding: 0.5em 0.8em;
-  }
   .hero__title {
     flex-direction: column;
     align-items: center;
     gap: 0;
-    line-height: 0.95;
-    font-size: clamp(2.6rem, 14vw, 4.25rem);
-  }
-  .hero__first {
-    -webkit-text-stroke-width: 3px;
+    line-height: 0.92;
+    font-size: clamp(2.6rem, 12vw, 4.25rem);
   }
   .hero__portrait {
-    width: clamp(220px, 68vw, 340px);
+    width: clamp(220px, 68vw, 360px);
     max-width: 100%;
   }
   .hero__intro {
     width: 100%;
-    justify-items: center;
-    text-align: center;
+    max-width: none;
   }
   .hero__socials {
     width: 100%;
@@ -1245,20 +1180,27 @@ sup {
 
 /* =========================================================
    12. ANIMATION
-   Only transform + opacity are animated (no blur, no box-shadow
-   loops, no mask changes), so it stays on the GPU and runs smoothly
-   on phones and PCs alike.
    ========================================================= */
 :root {
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-/* Scroll progress bar */
+/* Scroll-linked animations */
 @keyframes scroll-progress {
   to {
     transform: scaleX(1);
   }
 }
+
+@keyframes watermark-drift {
+  from {
+    transform: translate3d(0, 36px, 0) scale(0.96);
+  }
+  to {
+    transform: translate3d(0, -36px, 0) scale(1.04);
+  }
+}
+
 @supports (animation-timeline: scroll()) {
   body::before {
     content: "";
@@ -1275,145 +1217,96 @@ sup {
   }
 }
 
-/* Keyframes */
+@supports (animation-timeline: view()) {
+  .section__watermark {
+    animation: watermark-drift linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+/* Entrance animation keyframes */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translate3d(0, 26px, 0);
+    transform: translateY(34px);
+    filter: blur(6px);
   }
 }
 @keyframes fadeDown {
   from {
     opacity: 0;
-    transform: translate3d(0, -18px, 0);
+    transform: translateY(-18px);
   }
 }
 @keyframes portraitIn {
   from {
     opacity: 0;
-    transform: translate3d(0, 40px, 0) scale(0.97);
+    transform: translateX(-50%) translateY(60px) scale(0.96);
+    filter: blur(8px);
   }
 }
 @keyframes popTilt {
   from {
     opacity: 0;
-    transform: translate3d(0, 24px, 0) rotate(-14deg) scale(0.7);
+    transform: translateY(24px) rotate(-14deg) scale(0.7);
   }
 }
 @keyframes bodyIn {
   from {
     opacity: 0;
-    transform: translate3d(0, 10px, 0);
-  }
-}
-@keyframes popIn {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 18px, 0) scale(0.85);
-  }
-}
-@keyframes slideInX {
-  from {
-    opacity: 0;
-    transform: translate3d(-26px, 0, 0);
-  }
-}
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 20px, 0) scale(0.94);
-  }
-}
-@keyframes titleSlideL {
-  from {
-    opacity: 0;
-    transform: translate3d(-40px, 0, 0);
-  }
-}
-@keyframes titleSlideR {
-  from {
-    opacity: 0;
-    transform: translate3d(40px, 0, 0);
-  }
-}
-@keyframes stageIn {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 16px, 0) scale(0.97);
-  }
-}
-/* Expanding rings: scale + fade only */
-@keyframes ring {
-  0% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  70%,
-  100% {
-    transform: scale(1.2, 1.6);
-    opacity: 0;
-  }
-}
-@keyframes dotRing {
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  70%,
-  100% {
-    transform: scale(3);
-    opacity: 0;
+    transform: translateY(10px);
   }
 }
 
 /* Hero entrance on page load */
 .nav {
-  animation: fadeDown 0.7s var(--ease) 0.1s backwards;
+  animation: fadeDown 0.8s var(--ease) 0.1s backwards;
 }
 .hero__first {
-  animation: rise 0.8s var(--ease) 0.2s backwards;
+  animation: rise 1s var(--ease) 0.25s backwards;
 }
 .hero__last {
-  animation: rise 0.8s var(--ease) 0.35s backwards;
+  animation: rise 1s var(--ease) 0.42s backwards;
 }
 .hero__portrait {
-  animation: portraitIn 0.9s var(--ease) 0.45s backwards;
+  animation: portraitIn 1.2s var(--ease) 0.55s backwards;
 }
 .hero__intro {
-  animation: rise 0.8s var(--ease) 0.65s backwards;
+  animation: rise 0.9s var(--ease) 0.8s backwards;
 }
 .hero__socials li {
-  animation: rise 0.7s var(--ease) backwards;
+  animation: rise 0.8s var(--ease) backwards;
 }
 .hero__socials li:nth-child(1) {
-  animation-delay: 0.75s;
+  animation-delay: 0.9s;
 }
 .hero__socials li:nth-child(2) {
-  animation-delay: 0.83s;
+  animation-delay: 1s;
 }
 .hero__socials li:nth-child(3) {
-  animation-delay: 0.91s;
+  animation-delay: 1.1s;
 }
 .hero__socials li:nth-child(4) {
-  animation-delay: 0.99s;
+  animation-delay: 1.2s;
 }
 
-/* Call-to-action buttons: a soft expanding ring behind them */
-.hero__intro .btn,
-.contact__card .btn {
-  position: relative;
-  isolation: isolate;
+/* Hero fade-out on scroll (--p is set by JavaScript, from 0 to 1) */
+.hero__frame {
+  scale: calc(1 - var(--p, 0) * 0.05);
+  opacity: calc(1 - var(--p, 0) * 0.7);
 }
-.hero__intro .btn::after,
-.contact__card .btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  border: 2px solid rgba(17, 17, 17, 0.45);
-  pointer-events: none;
-  animation: ring 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) 1.6s infinite;
+.hero__title {
+  translate: 0 calc(var(--p, 0) * -70px);
+}
+.hero__portrait {
+  translate: 0 calc(var(--p, 0) * 50px);
+  opacity: calc(1 - var(--p, 0) * 0.9);
+}
+.nav,
+.hero__intro,
+.hero__socials {
+  opacity: calc(1 - var(--p, 0) * 1.8);
 }
 
 /* Section reveal on scroll: JavaScript swaps .is-pending for .is-in */
@@ -1421,15 +1314,21 @@ sup {
   opacity: 0;
 }
 .is-in {
-  animation: rise 0.8s var(--ease) var(--d, 0s) backwards;
+  animation: rise 1s var(--ease) var(--d, 0s) backwards;
+}
+.timeline__row.is-in {
+  animation-name: rise;
+}
+.contact__card.is-in {
+  animation-duration: 1.2s;
 }
 
 /* Service accordion open-state animations */
 .accordion__item.is-open .accordion__preview {
-  animation: popTilt 0.6s var(--ease) 0.1s backwards;
+  animation: popTilt 0.7s var(--ease) 0.1s backwards;
 }
 .accordion__item.is-open .accordion__body p {
-  animation: bodyIn 0.45s var(--ease) 0.1s backwards;
+  animation: bodyIn 0.5s var(--ease) 0.1s backwards;
 }
 .accordion__item {
   transition:
@@ -1440,85 +1339,22 @@ sup {
 
 /* Highlight cards animate back in when the filter changes */
 .card.is-refresh {
-  animation: rise 0.6s var(--ease) var(--d, 0s) backwards;
-}
-
-/* Contact section: each piece eases in one after another */
-.contact__card .badge--status.is-in {
-  animation-name: popIn;
-}
-.contact__title.is-in {
-  animation-duration: 0.9s;
-}
-.contact__card .btn.is-in {
-  animation-name: popIn;
-  animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
-}
-.contact__links li.is-in {
-  animation-name: popIn;
-  animation-duration: 0.6s;
-  animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
-}
-
-/* Video player (phones): opens below the Featured Content grid */
-.stage {
-  max-width: 880px;
-  margin: clamp(16px, 3vw, 28px) auto 0;
-  padding: 12px;
-  border-radius: 16px;
-  background: #0d0d0d;
-  color: #fff;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
-}
-.stage.is-open {
-  animation: stageIn 0.45s var(--ease) both;
-}
-.stage__bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.stage__title {
-  display: -webkit-box;
-  overflow: hidden;
-  font: 500 0.8rem/1.3 var(--font-head);
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-.stage__close {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.14);
-  color: #fff;
-  font-size: 1rem;
-  line-height: 1;
-}
-.stage__media {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 10px;
-  background: #000;
-}
-.stage[data-shape="vertical"] .stage__media {
-  width: min(100%, 300px);
-  aspect-ratio: 9 / 16;
-  margin-inline: auto;
-}
-.card.is-active .card__media {
-  box-shadow: 0 0 0 2px #111;
+  animation: rise 0.7s var(--ease) var(--d, 0s) backwards;
 }
 
 /* Reduced-motion overrides */
 @media (prefers-reduced-motion: reduce) {
   .is-pending {
+    opacity: 1;
+  }
+  .hero__frame,
+  .hero__title,
+  .hero__portrait,
+  .nav,
+  .hero__intro,
+  .hero__socials {
+    scale: none;
+    translate: none;
     opacity: 1;
   }
 }
@@ -1527,61 +1363,4 @@ sup {
 body {
   padding-left: max(0px, env(safe-area-inset-left, 0px));
   padding-right: max(0px, env(safe-area-inset-right, 0px));
-}
-
-/* =========================================================
-   13. MOBILE / TOUCH ANIMATION
-   Phones, tablets and touch-only devices.
-   ========================================================= */
-@media (max-width: 960px), (hover: none) {
-  /* Bigger colour spotlight for fingers; keep vertical scrolling working */
-  .hero__portrait {
-    --spot: 92px;
-    touch-action: pan-y;
-  }
-
-  /* Tap feedback */
-  .btn:active,
-  .pill:active,
-  .filters__btn:active,
-  .accordion__head:active {
-    transform: scale(0.95);
-    transition-duration: 0.1s;
-  }
-  .card__cursor:active {
-    transform: translate(-50%, -50%) scale(0.88);
-  }
-  .card__cursor {
-    opacity: 1;
-  }
-
-  /* Hero: name slides in from both sides, buttons pop in */
-  .hero__first {
-    animation: titleSlideL 0.8s var(--ease) 0.2s backwards;
-  }
-  .hero__last {
-    animation: titleSlideR 0.8s var(--ease) 0.35s backwards;
-  }
-  .hero__socials li {
-    animation-name: popIn;
-    animation-duration: 0.6s;
-    animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
-  }
-
-  /* Scroll reveals */
-  .highlight__grid .card.is-in,
-  .highlight__grid .card.is-refresh {
-    animation-name: zoomIn;
-    animation-duration: 0.6s;
-  }
-  .timeline__row.is-in,
-  .accordion__item.is-in {
-    animation-name: slideInX;
-    animation-duration: 0.7s;
-  }
-
-  /* Timeline rows: touch highlight instead of hover */
-  .timeline__row:active {
-    background: rgba(255, 255, 255, 0.06);
-  }
 }
