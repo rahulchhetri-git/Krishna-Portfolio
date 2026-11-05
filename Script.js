@@ -5,6 +5,9 @@
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
+  const compactLayout = window.matchMedia(
+    "(max-width: 960px), (pointer: coarse)",
+  );
   const hasIO = "IntersectionObserver" in window;
 
   // ---------- Footer ----------
@@ -340,7 +343,11 @@
 
     const update = () => {
       ticking = false;
-      const p = Math.min(Math.max(window.scrollY / (heroHeight * 1.3), 0), 1);
+      const fadeDistance = compactLayout.matches ? 2 : 1.3;
+      const p = Math.min(
+        Math.max(window.scrollY / (heroHeight * fadeDistance), 0),
+        1,
+      );
       const rounded = Math.round(p * 1000) / 1000;
       // Nothing to repaint once the hero is fully faded or unchanged
       if (rounded === lastP) return;

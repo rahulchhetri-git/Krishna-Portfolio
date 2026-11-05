@@ -114,6 +114,10 @@ sup {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
 
 /* ---------- 3. Cloudy grayscale backdrop ---------- */
 .sky {
@@ -218,6 +222,7 @@ sup {
   font-weight: 500;
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-pill);
+  white-space: nowrap;
 }
 .badge__dot {
   position: relative;
@@ -1162,8 +1167,10 @@ sup {
     grid-auto-columns: min(82%, 300px);
     gap: 14px;
     overflow-x: auto;
+    overflow-y: hidden;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
+    touch-action: pan-x;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     margin-inline: calc(-1 * clamp(20px, 5vw, 28px));
@@ -1244,6 +1251,29 @@ sup {
   .filters {
     flex-wrap: wrap;
     row-gap: 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav {
+    gap: clamp(6px, 2vw, 12px);
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "status action"
+      "links links";
+  }
+  .nav > .badge--status {
+    justify-self: start;
+    width: fit-content;
+    max-width: 100%;
+    font-size: clamp(0.46rem, 2.2vw, 0.68rem);
+    gap: 0.4em;
+    padding-inline: 0.65em;
+  }
+  .nav > .btn {
+    justify-self: end;
+    padding-inline: 0.75em;
+    font-size: clamp(0.62rem, 2.2vw, 0.72rem);
   }
 }
 
