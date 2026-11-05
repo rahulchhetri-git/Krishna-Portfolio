@@ -343,7 +343,7 @@
 
     const update = () => {
       ticking = false;
-      const fadeDistance = compactLayout.matches ? 3 : 1.3;
+      const fadeDistance = compactLayout.matches ? 3 : 2;
       const p = Math.min(
         Math.max(window.scrollY / (heroHeight * fadeDistance), 0),
         1,
