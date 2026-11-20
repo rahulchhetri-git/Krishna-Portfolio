@@ -5,9 +5,7 @@
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
-  const compactLayout = window.matchMedia(
-    "(max-width: 960px), (pointer: coarse)",
-  );
+  const tabletLayout = window.matchMedia("(max-width: 960px)");
   const hasIO = "IntersectionObserver" in window;
 
   // ---------- Footer ----------
@@ -69,6 +67,8 @@
         card.hidden = !show;
         card.classList.remove("is-refresh");
       });
+      const grid = document.querySelector(".highlight__grid");
+      if (grid) grid.scrollTo({ top: 0, behavior: "smooth" });
       // Re-play the entrance for the cards that remain
       void document.body.offsetWidth;
       [...cards]
@@ -77,9 +77,6 @@
           c.style.setProperty("--d", `${i * 0.08}s`);
           c.classList.add("is-refresh");
         });
-      // Back to the first card in the swipe row on mobile
-      const grid = document.querySelector(".highlight__grid");
-      if (grid) grid.scrollTo({ left: 0 });
     });
   });
 
@@ -205,21 +202,9 @@
         return;
       }
 
+      // YouTube embed
       const player = document.createElement("iframe");
-      const embedUrl = button.dataset.embedUrl
-        ? new URL(button.dataset.embedUrl)
-        : new URL(
-            `https://www.youtube-nocookie.com/embed/${encodeURIComponent(button.dataset.videoId)}?autoplay=1&playsinline=1`,
-          );
-      if (
-        embedUrl.protocol !== "https:" ||
-        !["www.youtube-nocookie.com", "www.tiktok.com"].includes(
-          embedUrl.hostname,
-        )
-      ) {
-        return;
-      }
-      player.src = embedUrl.href;
+      player.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(button.dataset.videoId)}?autoplay=1&playsinline=1`;
       player.title = button.dataset.videoTitle;
       player.loading = "lazy";
       player.allow = "autoplay; encrypted-media; picture-in-picture";
@@ -299,7 +284,6 @@
     if (!frame) return;
 
     if (event.data.type === "onPlayerReady") {
-      button.dataset.playerReady = "true";
       if (button.dataset.playRequested === "true") {
         sendTikTokPlayerCommand(frame, "play");
       }
@@ -343,7 +327,7 @@
 
     const update = () => {
       ticking = false;
-      const fadeDistance = compactLayout.matches ? 3 : 2;
+      const fadeDistance = tabletLayout.matches ? 3 : 2;
       const p = Math.min(
         Math.max(window.scrollY / (heroHeight * fadeDistance), 0),
         1,
