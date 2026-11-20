@@ -54,6 +54,9 @@
 .nav__links a:hover::after {
   transform: scaleX(1);
 }
+.nav__mobile-link {
+  display: none;
+}
 
 .hero__title {
   grid-row: 2;
