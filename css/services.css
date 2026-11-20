@@ -36,9 +36,6 @@
   font: 400 clamp(1.5rem, 4.4vw, 2.7rem)/1.1 var(--font-head);
   letter-spacing: -0.01em;
 }
-.accordion__icon-badge {
-  display: none;
-}
 .accordion__toggle {
   font-size: 1.5rem;
   display: grid;

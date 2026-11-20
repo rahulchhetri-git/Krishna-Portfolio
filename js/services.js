@@ -1,5 +1,14 @@
 export function initServices() {
   // ---------- Services: accordion (one open at a time) ----------
+  const accordion = document.querySelector(".accordion");
+  const contentCreationItem = accordion
+    ?.querySelector("#svc-4-btn")
+    ?.closest(".accordion__item");
+
+  if (accordion && contentCreationItem) {
+    accordion.prepend(contentCreationItem);
+  }
+
   const items = document.querySelectorAll(".accordion__item");
   const firstItem = items[0];
   const mobileLayout = window.matchMedia("(max-width: 600px)");
