@@ -538,27 +538,8 @@ sup {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   max-width: 880px;
-  height: 570px;
-  overflow-y: auto;
-  overflow-x: hidden;
   margin-inline: auto;
   gap: clamp(16px, 2.2vw, 24px);
-  padding-right: 8px;
-  scrollbar-width: thin;
-  scrollbar-color: #8a8a8a #ededed;
-  scroll-behavior: smooth;
-  overscroll-behavior: contain;
-}
-.highlight__grid::-webkit-scrollbar {
-  width: 8px;
-}
-.highlight__grid::-webkit-scrollbar-track {
-  background: #ededed;
-  border-radius: 999px;
-}
-.highlight__grid::-webkit-scrollbar-thumb {
-  background: #8a8a8a;
-  border-radius: 999px;
 }
 .highlight__grid .card {
   height: 100%;
@@ -573,7 +554,7 @@ sup {
   position: relative;
   display: block;
   overflow: hidden;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 3 / 2;
   background: #eee;
 }
 .card__media--dark,
@@ -604,7 +585,7 @@ sup {
 .card__media img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   transition: transform 0.6s var(--ease);
 }
 .card__link:hover .card__media img {
@@ -953,9 +934,6 @@ sup {
 
 /* ---------- 10. Tablet (≤ 960px) ---------- */
 @media (max-width: 960px) {
-  .highlight__grid {
-    height: 400px;
-  }
   .section__watermark {
     font-size: clamp(3rem, 11vw, 6rem);
   }
