@@ -189,12 +189,38 @@
   }
 
   .service {
-    margin-top: 40px;
+    margin-top: 35px;
     margin-bottom: 50px;
   }
   .accordion__name {
-    font-size: clamp(1.8rem, 6.5vw, 2.3rem);
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    min-width: 0;
+    font-size: clamp(1.7rem, 6.4vw, 2.2rem);
     font-weight: 500;
+  }
+  .accordion__name > span {
+    min-width: 0;
+  }
+  .accordion__icon-badge {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 1.7em;
+    aspect-ratio: 1;
+    border-radius: 0.45em;
+    background: var(--ink);
+    color: #fff;
+  }
+  .accordion__item.is-open .accordion__icon-badge {
+    background: #fff;
+    color: var(--ink);
+  }
+  .accordion__service-icon {
+    display: block;
+    width: 1.1em;
+    height: 1.1em;
   }
   .accordion {
     display: grid;
