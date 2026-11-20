@@ -1,0 +1,49 @@
+/* ---------- 8. Contact CTA ---------- */
+.contact {
+  padding-top: clamp(32px, 6vw, 80px);
+  padding-bottom: clamp(32px, 5vw, 64px);
+}
+.contact__card {
+  max-width: 1060px;
+  margin-inline: auto;
+  min-height: clamp(380px, 38vw, 500px);
+  padding: clamp(40px, 6vw, 80px) var(--gutter);
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 22px;
+  text-align: center;
+  border-radius: 28px;
+  background: linear-gradient(
+    135deg,
+    #111,
+    #292929
+  );
+  color: white;
+}
+.contact__title {
+  font: 500 clamp(1.8rem, 5.6vw, 3.4rem)/1.05 var(--font-head);
+  letter-spacing: -0.02em;
+}
+.contact__text {
+  max-width: 560px;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,.85);
+}
+
+.contact__card .badge--status {
+  color: var(--ink);
+}
+
+.contact__card .btn {
+  margin-top: 8px;
+}
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(10px, 2.4vw, 30px);
+  margin: clamp(28px, 4vw, 52px) auto 0;
+  max-width: 1060px;
+}
+

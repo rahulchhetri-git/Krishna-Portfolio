@@ -1,0 +1,101 @@
+/* ---------- 6. Service accordion ---------- */
+.service {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(12px, 2vw, 24px);
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+.service__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin-inline: auto;
+  padding-block: clamp(20px, 4vw, 48px);
+}
+.accordion {
+  margin-top: clamp(20px, 3vw, 34px);
+}
+
+.accordion__item {
+  border-bottom: 1px solid var(--line);
+  transition:
+    background 0.4s var(--ease),
+    color 0.4s var(--ease),
+    border-radius 0.4s;
+}
+.accordion__head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(18px, 2.6vw, 28px) clamp(0px, 1.6vw, 20px);
+  text-align: left;
+}
+.accordion__name {
+  font: 400 clamp(1.5rem, 4.4vw, 2.7rem)/1.1 var(--font-head);
+  letter-spacing: -0.01em;
+}
+.accordion__toggle {
+  font-size: 1.5rem;
+  display: grid;
+}
+.accordion__toggle .icon {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.25s,
+    transform 0.3s;
+}
+.icon--close {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.accordion__body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 clamp(0px, 1.6vw, 20px) clamp(18px, 2.6vw, 28px);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.accordion__body p {
+  max-width: 320px;
+}
+.accordion__preview {
+  position: absolute;
+  right: 14%;
+  top: -110px;
+  width: clamp(130px, 20vw, 210px);
+  border-radius: 6px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  transform: rotate(-4deg);
+}
+
+.accordion__item.is-open {
+  background: #262626;
+  color: #fff;
+  border-radius: 6px;
+  border-bottom-color: transparent;
+  margin-bottom: 1px;
+}
+.accordion__item.is-open .accordion__body {
+  color: rgba(255, 255, 255, 0.75);
+}
+.accordion__item.is-open .icon--arrow {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+.accordion__item.is-open .icon--close {
+  opacity: 1;
+  transform: none;
+}
+.accordion__item:not(.is-open) .accordion__head:hover .icon--arrow {
+  transform: translate(3px, -3px);
+}
+.accordion__item:not(.is-open) .accordion__preview {
+  display: none;
+}
+

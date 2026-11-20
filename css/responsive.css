@@ -1,0 +1,96 @@
+/* ---------- Tablet (≤ 960px) ---------- */
+@media (max-width: 960px) {
+  .section__watermark {
+    font-size: clamp(3rem, 11vw, 6rem);
+  }
+  .section__panel {
+    min-width: 0;
+    padding: clamp(24px, 4vw, 40px);
+  }
+  .nav {
+    grid-area: nav;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "status action"
+      "links links";
+    width: 100%;
+    min-width: 0;
+  }
+  .nav > .badge--status {
+    grid-area: status;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .nav > .btn {
+    grid-area: action;
+    justify-self: end;
+  }
+  .nav__links {
+    grid-area: links;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    gap: 8px clamp(12px, 3vw, 24px);
+  }
+  .hero__frame {
+    min-height: clamp(700px, 90vw, 820px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto minmax(280px, 1fr) auto;
+    grid-template-areas:
+      "nav nav"
+      "title title"
+      "portrait portrait"
+      "intro socials";
+    row-gap: clamp(12px, 2vw, 20px);
+  }
+  .hero__title {
+    grid-area: title;
+    width: 100%;
+    min-width: 0;
+    margin-top: clamp(12px, 2vw, 24px);
+  }
+  .hero__portrait {
+    position: relative;
+    grid-area: portrait;
+    left: auto;
+    bottom: auto;
+    align-self: center;
+    justify-self: center;
+    width: clamp(260px, 40vw, 360px);
+    transform: none;
+  }
+  /* No translateX(-50%) here, so the entrance must not use it either */
+  .hero__frame .hero__portrait {
+    animation-name: portraitRise;
+  }
+  .hero__intro {
+    position: relative;
+    grid-area: intro;
+    left: auto;
+    bottom: auto;
+    align-self: center;
+    max-width: none;
+  }
+  .hero__socials {
+    position: relative;
+    grid-area: socials;
+    right: auto;
+    bottom: auto;
+    align-self: center;
+    grid-template-columns: repeat(2, auto);
+    justify-self: end;
+  }
+  .hero__intro,
+  .hero__socials {
+    translate: 0 8px;
+  }
+  .hero__socials .pill {
+    justify-content: center;
+  }
+  .accordion__preview {
+    right: 6%;
+  }
+}
+

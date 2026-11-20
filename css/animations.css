@@ -1,0 +1,235 @@
+/* =========================================================
+   11. ANIMATION
+   ========================================================= */
+
+/* Scroll-linked animations */
+@keyframes scroll-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Drift is measured in em so it scales with the text and can never push the
+   letters above the panel edge. */
+@keyframes watermark-drift {
+  from {
+    transform: translate3d(0, 0.2em, 0) scale(0.96);
+  }
+  to {
+    transform: translate3d(0, -0.08em, 0) scale(1.04);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  body::before {
+    content: "";
+    position: fixed;
+    z-index: 10;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--green);
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: scroll-progress linear both;
+    animation-timeline: scroll(root block);
+    pointer-events: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .section__watermark {
+    animation: watermark-drift linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+/* Entrance animation keyframes */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+    filter: blur(6px);
+  }
+}
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+@keyframes portraitIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(60px) scale(0.96);
+    filter: blur(8px);
+  }
+}
+@keyframes portraitRise {
+  from {
+    opacity: 0;
+    transform: translateY(48px) scale(0.96);
+  }
+}
+@keyframes popTilt {
+  from {
+    opacity: 0;
+    transform: translateY(24px) rotate(-14deg) scale(0.7);
+  }
+}
+@keyframes bodyIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Hero entrance on page load */
+.nav {
+  animation: fadeDown 0.8s var(--ease) 0.1s backwards;
+}
+.hero__first {
+  animation: rise 1s var(--ease) 0.25s backwards;
+}
+.hero__last {
+  animation: rise 1s var(--ease) 0.42s backwards;
+}
+.hero__portrait {
+  animation: portraitIn 1.2s var(--ease) 0.55s backwards;
+}
+.hero__intro {
+  animation: rise 0.9s var(--ease) 0.8s backwards;
+}
+.hero__socials li {
+  animation: rise 0.8s var(--ease) backwards;
+}
+.hero__socials li:nth-child(1) {
+  animation-delay: 0.9s;
+}
+.hero__socials li:nth-child(2) {
+  animation-delay: 1s;
+}
+.hero__socials li:nth-child(3) {
+  animation-delay: 1.1s;
+}
+.hero__socials li:nth-child(4) {
+  animation-delay: 1.2s;
+}
+
+/* Hero fade-out on scroll (--p is set by JavaScript, from 0 to 1) */
+.hero__frame {
+  scale: calc(1 - var(--p, 0) * 0.05);
+  opacity: calc(1 - var(--p, 0) * 0.7);
+}
+.hero__title {
+  translate: 0 calc(var(--p, 0) * -70px);
+}
+.hero__portrait {
+  translate: 0 calc(var(--p, 0) * 50px);
+  opacity: calc(1 - var(--p, 0) * 0.9);
+}
+.nav,
+.hero__intro,
+.hero__socials {
+  opacity: calc(1 - var(--p, 0) * 1.8);
+}
+
+/* Hero entrance replays whenever the hero comes back into view.
+   JavaScript toggles .is-away while the hero is fully off screen; removing it
+   restarts every entrance animation above. */
+.hero.is-away .nav,
+.hero.is-away .hero__first,
+.hero.is-away .hero__last,
+.hero.is-away .hero__portrait,
+.hero.is-away .hero__intro,
+.hero.is-away .hero__socials li {
+  animation: none;
+}
+
+/* Section reveal on scroll (reversible).
+   JavaScript sets data-rv to "below" (waiting under the viewport), "in"
+   (visible) or "above" (scrolled past). It is a transition, so it plays in
+   both directions. The tripled class beats the per-component transitions. */
+.rv.rv.rv {
+  transition:
+    opacity 0.7s var(--ease),
+    translate 0.9s var(--ease),
+    filter 0.7s var(--ease);
+  transition-delay: 0s;
+}
+.rv[data-rv="below"] {
+  opacity: 0;
+  translate: 0 34px;
+  filter: blur(6px);
+  will-change: translate, opacity;
+}
+.rv[data-rv="above"] {
+  opacity: 0;
+  translate: 0 -24px;
+  filter: blur(6px);
+  will-change: translate, opacity;
+}
+.rv[data-rv="in"] {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+  transition-delay: var(--d, 0s);
+}
+/* Keep the accordion's own open/close background transition alongside the reveal */
+.accordion__item.rv.rv.rv {
+  transition:
+    opacity 0.7s var(--ease),
+    translate 0.9s var(--ease),
+    filter 0.7s var(--ease),
+    background 0.4s var(--ease),
+    color 0.4s var(--ease),
+    border-radius 0.4s;
+}
+.timeline__row.rv.rv.rv {
+  transition-duration: 0.8s, 1s, 0.8s;
+}
+.contact__card.rv.rv.rv {
+  transition-duration: 0.9s, 1.2s, 0.9s;
+}
+
+/* Service accordion open-state animations */
+.accordion__item.is-open .accordion__preview {
+  animation: popTilt 0.7s var(--ease) 0.1s backwards;
+}
+.accordion__item.is-open .accordion__body p {
+  animation: bodyIn 0.5s var(--ease) 0.1s backwards;
+}
+
+/* Highlight cards animate back in when the filter changes */
+.card.is-refresh {
+  animation: rise 0.7s var(--ease) var(--d, 0s) backwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .rv,
+  .rv[data-rv] {
+    opacity: 1;
+    translate: none;
+    filter: none;
+  }
+  .hero__frame,
+  .hero__title,
+  .hero__portrait,
+  .nav,
+  .hero__intro,
+  .hero__socials {
+    scale: none;
+    translate: none;
+    opacity: 1;
+  }
+}

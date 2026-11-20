@@ -1,0 +1,77 @@
+/* ---------- 7. Milestones ---------- */
+.milestone .section__panel {
+  padding-block: clamp(32px, 5vw, 56px);
+}
+.milestone__head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.milestone__head .section__title {
+  text-align: left;
+}
+.milestone__years {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.timeline {
+  position: relative;
+  margin-top: clamp(24px, 4vw, 44px);
+}
+.timeline__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 6px;
+  border-bottom: 1px solid var(--line-dark);
+}
+.timeline__row:last-child {
+  border-bottom: 0;
+}
+.timeline__company {
+  font: 500 0.95rem/1.2 var(--font-head);
+}
+.timeline__role {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.timeline__date {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+}
+
+/* Hover preview floats next to the cursor row */
+.timeline__preview {
+  position: absolute;
+  left: 36%;
+  /* --tx is set by JavaScript; moving via translate avoids layout work */
+  translate: var(--tx, 0px) 0;
+  top: 50%;
+  width: clamp(110px, 14vw, 160px);
+  border-radius: 6px;
+  transform: translateY(-65%) rotate(-3deg) scale(0.85);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    transform 0.35s ease;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+.timeline__row:hover .timeline__preview {
+  opacity: 1;
+  transform: translateY(-65%) rotate(-3deg) scale(1);
+}
+.timeline__row:hover .timeline__company {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+

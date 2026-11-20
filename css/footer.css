@@ -1,0 +1,8 @@
+/* ---------- 9. Footer ---------- */
+.footer {
+  padding: 8px var(--gutter) 32px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #333;
+}
+
