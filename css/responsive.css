@@ -95,6 +95,17 @@
 }
 
 @media (max-width: 600px) {
+  a,
+  button,
+  [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+  a:focus:not(:focus-visible),
+  button:focus:not(:focus-visible),
+  [role="button"]:focus:not(:focus-visible) {
+    outline: none;
+  }
+
   .section__panel {
     padding: 24px 18px;
   }
@@ -216,7 +227,7 @@
     width: 100%;
     max-width: none;
   }
-  .accordion__preview {
+  .accordion__item.is-open .accordion__preview {
     display: none;
   }
 
